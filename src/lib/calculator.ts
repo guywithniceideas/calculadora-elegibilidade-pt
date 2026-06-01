@@ -61,7 +61,9 @@ function buildAlerts(input: CalculatorInput, requiredSavings: number): Alert[] {
     })
   }
 
-  if (visaType === 'D8' && conservativeMode) {
+  const { family } = input
+  const hasFamily = family.spouses > 0 || family.children > 0 || family.adultDependents > 0
+  if (visaType === 'D8' && conservativeMode && hasFamily) {
     alerts.push({
       type: 'info',
       title: 'Modo Conservador ativo',

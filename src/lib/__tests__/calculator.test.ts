@@ -50,6 +50,9 @@ describe('calculateRequiredIncome — D8', () => {
       family: { spouses: 1, children: 1, adultDependents: 0 },
     })).toBe(6624)
   })
+  it('modo conservador não afeta D7', () => {
+    expect(calculateRequiredIncome({ ...base, visaType: 'D7', conservativeMode: true })).toBe(920)
+  })
 })
 
 describe('calculateRequiredIncome — D2', () => {
@@ -70,6 +73,9 @@ describe('calculateRequiredSavings', () => {
   })
   it('casal + 2 filhos: €23184', () => {
     expect(calculateRequiredSavings({ ...base, family: { spouses: 1, children: 2, adultDependents: 0 } })).toBe(23184)
+  })
+  it('titular com dependente adulto: €16560', () => {
+    expect(calculateRequiredSavings({ ...base, family: { spouses: 0, children: 0, adultDependents: 1 } })).toBe(16560)
   })
 })
 
@@ -109,5 +115,17 @@ describe('calculate — alerts', () => {
   it('D8 renda alta gera alerta IRS', () => {
     const result = calculate({ ...base, visaType: 'D8', monthlyIncome: 4000, savingsInPortugal: 11040 })
     expect(result.alerts.some(a => a.title === 'Atenção: IRS progressivo')).toBe(true)
+  })
+})
+
+describe('calculate — edge cases', () => {
+  it('renda zero e poupança zero → ineligible', () => {
+    const result = calculate({ ...base, visaType: 'D7', monthlyIncome: 0, savingsInPortugal: 0 })
+    expect(result.overallStatus).toBe('ineligible')
+    expect(result.incomePercent).toBe(0)
+  })
+  it('modo conservador D8 sem família não gera alerta conservador', () => {
+    const result = calculate({ ...base, visaType: 'D8', conservativeMode: true, monthlyIncome: 3680, savingsInPortugal: 11040 })
+    expect(result.alerts.some(a => a.title === 'Modo Conservador ativo')).toBe(false)
   })
 })
