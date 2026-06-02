@@ -1,5 +1,7 @@
 'use client'
-// Stub — will be replaced in Task 10 with full PDF implementation
+import dynamic from 'next/dynamic'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import PdfDocument from './PdfDocument'
 import type { CalculatorInput, CalculatorResult } from '@/lib/types'
 
 interface Props {
@@ -7,10 +9,21 @@ interface Props {
   result: CalculatorResult
 }
 
-export default function DownloadPdfButton({ input, result }: Props) {
+function Button({ input, result }: Props) {
+  const now = new Date().toLocaleDateString('pt-BR', {
+    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
+  })
+  const filename = `elegibilidade-${input.visaType.toLowerCase()}-${new Date().toISOString().slice(0, 10)}.pdf`
+
   return (
-    <button className="block w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg text-sm font-semibold transition-colors text-center">
-      📄 Baixar Relatório de Elegibilidade (PDF)
-    </button>
+    <PDFDownloadLink
+      document={<PdfDocument input={input} result={result} generatedAt={now} />}
+      fileName={filename}
+      className="block w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg text-sm font-semibold transition-colors text-center"
+    >
+      {({ loading }) => loading ? 'Gerando PDF...' : '📄 Baixar Relatório de Elegibilidade (PDF)'}
+    </PDFDownloadLink>
   )
 }
+
+export default dynamic(() => Promise.resolve(Button), { ssr: false })
