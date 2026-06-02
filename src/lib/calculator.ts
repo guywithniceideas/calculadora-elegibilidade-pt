@@ -13,7 +13,10 @@ export function calculateRequiredIncome(input: CalculatorInput): number {
     if (conservativeMode) {
       return base + extras * base * EXTRA_ADULT_FACTOR + family.children * base * CHILD_FACTOR
     }
-    return base + extras * RMMG * EXTRA_ADULT_FACTOR + family.children * RMMG * CHILD_FACTOR
+    // D8 legal: the 4×RMMG base already covers family subsistence in most cases.
+    // Required = max(D8 base, standard family calculation).
+    const familyTotal = RMMG + extras * RMMG * EXTRA_ADULT_FACTOR + family.children * RMMG * CHILD_FACTOR
+    return Math.max(base, familyTotal)
   }
 
   return RMMG + extras * RMMG * EXTRA_ADULT_FACTOR + family.children * RMMG * CHILD_FACTOR

@@ -31,8 +31,16 @@ describe('calculateRequiredIncome — D8', () => {
   it('titular sozinho: €3680', () => {
     expect(calculateRequiredIncome({ ...base, visaType: 'D8' })).toBe(3680)
   })
-  it('modo legal, titular + cônjuge: €4140', () => {
-    expect(calculateRequiredIncome({ ...base, visaType: 'D8', family: { spouses: 1, children: 0, adultDependents: 0 } })).toBe(4140)
+  it('modo legal, titular + cônjuge: €3680 (D8 base cobre)', () => {
+    expect(calculateRequiredIncome({ ...base, visaType: 'D8', family: { spouses: 1, children: 0, adultDependents: 0 } })).toBe(3680)
+  })
+  it('modo legal, titular + cônjuge + 1 filho: €3680 (D8 base ainda cobre)', () => {
+    expect(calculateRequiredIncome({ ...base, visaType: 'D8', family: { spouses: 1, children: 1, adultDependents: 0 } })).toBe(3680)
+  })
+  it('modo legal, 9 filhos: €3864 (família supera base D8)', () => {
+    // 920 + 9×276 = 920 + 2484 = 3404 < 3680, ainda coberto
+    // 920 + 460 + 9×276 = 3864 > 3680, agora supera
+    expect(calculateRequiredIncome({ ...base, visaType: 'D8', family: { spouses: 1, children: 9, adultDependents: 0 } })).toBe(3864)
   })
   it('modo conservador, titular + cônjuge: €5520', () => {
     expect(calculateRequiredIncome({
