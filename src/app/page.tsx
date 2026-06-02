@@ -142,9 +142,12 @@ export default function Home() {
         {step === 2 && (
           <button
             onClick={handleBackToStep1}
-            className="text-xs text-[#666] hover:text-[#1A1A1A] mb-2 flex items-center gap-1"
+            className="inline-flex items-center gap-2 mb-3 px-4 py-2 rounded-xl bg-white border border-[#E8E5E0] shadow-sm text-xs font-semibold text-[#444] hover:bg-[#F4F2EE] hover:border-[#1A1A1A] hover:text-[#1A1A1A] transition-colors"
           >
-            ← Voltar ao Rastreio
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Voltar ao Rastreio do Visto
           </button>
         )}
 
