@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+:root {
+  --bg: #EDEBE7;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --mid: #444444;
+  --muted: #666666;
+  --faint: #999999;
+  --border: #E8E5E0;
+  --input-bg: #F4F2EE;
+  --selected: #1A1A1A;
+}
+
+html {
+  background: var(--bg);
+}
