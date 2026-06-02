@@ -5,18 +5,39 @@ import FamilyBuilder from './FamilyBuilder'
 interface Props {
   input: CalculatorInput
   onChange: (input: CalculatorInput) => void
+  exchangeRate: number
+  incomeBRL: number
+  onIncomeBRLChange: (brl: number) => void
+  savingsBRL: number
+  savingsEUR: number
+  savingsCurrency: 'BRL' | 'EUR' | null
+  onSavingsBRLChange: (brl: number) => void
+  onSavingsEURChange: (eur: number) => void
 }
 
-function Toggle({ label, checked, onToggle }: { label: string; checked: boolean; onToggle: () => void }) {
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#666] mb-2.5">
+      {children}
+    </p>
+  )
+}
+
+function Toggle({
+  label, sub, checked, onToggle,
+}: { label: string; sub?: string; checked: boolean; onToggle: () => void }) {
   return (
     <button
       aria-label={label}
       onClick={onToggle}
-      className="w-full flex items-center justify-between bg-slate-900 border border-slate-700 rounded-md px-3 py-2 text-xs text-left"
+      className="w-full flex items-center justify-between bg-[#F4F2EE] rounded-xl px-3 py-2.5 mb-1.5 text-left"
     >
-      <span className="text-slate-300">{label}</span>
-      <div className={`w-8 h-4 rounded-full relative transition-colors ${checked ? 'bg-indigo-600' : 'bg-slate-600'}`}>
-        <div className={`w-3 h-3 bg-white rounded-full absolute top-0.5 transition-all ${checked ? 'left-4' : 'left-0.5'}`} />
+      <div>
+        <p className="text-xs font-semibold text-[#1A1A1A]">{label}</p>
+        {sub && <p className="text-[10px] text-[#666] mt-0.5">{sub}</p>}
+      </div>
+      <div className={`w-8 h-[18px] rounded-full flex items-center px-0.5 ml-3 flex-shrink-0 transition-colors ${checked ? 'bg-[#1A1A1A] justify-end' : 'bg-[#CCC] justify-start'}`}>
+        <div className="w-3.5 h-3.5 bg-white rounded-full" />
       </div>
     </button>
   )
@@ -24,8 +45,8 @@ function Toggle({ label, checked, onToggle }: { label: string; checked: boolean;
 
 function NumericInput({ id, label, value, onChange }: { id: string; label: string; value: number; onChange: (v: number) => void }) {
   return (
-    <div className="mb-3">
-      <label htmlFor={id} className="block text-slate-400 text-xs mb-1">{label}</label>
+    <div className="mb-2.5">
+      <label htmlFor={id} className="block text-[11px] font-semibold text-[#555] mb-1.5">{label}</label>
       <input
         id={id}
         type="number"
@@ -33,31 +54,116 @@ function NumericInput({ id, label, value, onChange }: { id: string; label: strin
         value={value || ''}
         onChange={e => onChange(parseFloat(e.target.value) || 0)}
         placeholder="0,00"
-        className="w-full bg-slate-900 border border-slate-700 rounded-md px-3 py-2 text-slate-100 text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+        className="w-full bg-[#F4F2EE] rounded-xl px-3 py-2.5 text-[#1A1A1A] text-sm font-semibold placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
       />
     </div>
   )
 }
 
-export default function InputPanel({ input, onChange }: Props) {
+function fmt(n: number) {
+  return n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
+export default function InputPanel({
+  input, onChange,
+  exchangeRate,
+  incomeBRL, onIncomeBRLChange,
+  savingsBRL, savingsEUR, savingsCurrency,
+  onSavingsBRLChange, onSavingsEURChange,
+}: Props) {
   const set = (patch: Partial<CalculatorInput>) => onChange({ ...input, ...patch })
 
-  return (
-    <div className="h-full overflow-y-auto p-4">
-      <p className="text-indigo-400 text-[10px] uppercase tracking-widest mb-3">Dados do Requerente</p>
+  const incomeEUR = exchangeRate > 0 ? Math.round((incomeBRL / exchangeRate) * 100) / 100 : 0
+  const brlFromEur = exchangeRate > 0 ? Math.round(savingsEUR * exchangeRate * 100) / 100 : 0
+  const eurFromBrl = exchangeRate > 0 ? Math.round((savingsBRL / exchangeRate) * 100) / 100 : 0
 
-      <NumericInput
-        id="income"
-        label="Renda mensal comprovável (€)"
-        value={input.monthlyIncome}
-        onChange={v => set({ monthlyIncome: v })}
-      />
-      <NumericInput
-        id="savings"
-        label="Poupança em conta PT (€)"
-        value={input.savingsInPortugal}
-        onChange={v => set({ savingsInPortugal: v })}
-      />
+  return (
+    <div className="h-full overflow-y-auto p-5">
+      <SectionLabel>Dados Financeiros</SectionLabel>
+
+      {/* Income block: user types BRL, sees EUR conversion */}
+      <div className="bg-[#F4F2EE] rounded-2xl p-3.5 mb-2.5">
+        <p className="text-[11px] font-semibold text-[#555] mb-2">Renda mensal comprovável</p>
+        {/* BRL input row */}
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-sm">🇧🇷</span>
+          <span className="text-[11px] font-black text-[#444] w-7">BRL</span>
+          <input
+            type="number"
+            min={0}
+            value={incomeBRL || ''}
+            onChange={e => onIncomeBRLChange(parseFloat(e.target.value) || 0)}
+            placeholder="0,00"
+            className="flex-1 bg-transparent text-[#1A1A1A] text-lg font-black placeholder:text-[#CCC] outline-none"
+          />
+        </div>
+        <div className="h-px bg-[#E2DFDA] mb-2" />
+        {/* EUR conversion row */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm">🇪🇺</span>
+          <span className="text-[11px] font-black text-[#444] w-7">EUR</span>
+          <span className="text-sm font-bold text-[#1A1A1A]">
+            {incomeBRL > 0 ? `≈ € ${fmt(incomeEUR)}` : '—'}
+          </span>
+          {exchangeRate > 0 && (
+            <span className="ml-auto text-[10px] font-semibold text-[#666] flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-[#555] rounded-full inline-block" />
+              1 EUR = R$ {fmt(exchangeRate)}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Savings dual input */}
+      <div className="mb-2.5">
+        <label className="block text-[11px] font-semibold text-[#555] mb-1.5">
+          Poupança em conta PT — preencha em uma moeda
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          {/* BRL savings */}
+          <div className={`bg-[#F4F2EE] rounded-xl p-3 transition-opacity ${savingsCurrency === 'EUR' ? 'opacity-40 pointer-events-none' : ''}`}>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <span className="text-xs">🇧🇷</span>
+              <span className="text-[10px] font-black text-[#444]">BRL</span>
+            </div>
+            <input
+              type="number"
+              min={0}
+              value={savingsBRL || ''}
+              onChange={e => onSavingsBRLChange(parseFloat(e.target.value) || 0)}
+              placeholder="0,00"
+              className="w-full bg-transparent text-[#1A1A1A] text-sm font-bold placeholder:text-[#CCC] outline-none"
+            />
+            {savingsBRL > 0 && (
+              <p className="text-[9px] text-[#888] mt-1">≈ € {fmt(eurFromBrl)}</p>
+            )}
+            {savingsCurrency === null && (
+              <p className="text-[9px] text-[#AAA] mt-1">Preencha aqui…</p>
+            )}
+          </div>
+          {/* EUR savings */}
+          <div className={`bg-[#F4F2EE] rounded-xl p-3 transition-opacity ${savingsCurrency === 'BRL' ? 'opacity-40 pointer-events-none' : ''}`}>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <span className="text-xs">🇪🇺</span>
+              <span className="text-[10px] font-black text-[#444]">EUR</span>
+            </div>
+            <input
+              type="number"
+              min={0}
+              value={savingsEUR || ''}
+              onChange={e => onSavingsEURChange(parseFloat(e.target.value) || 0)}
+              placeholder="0,00"
+              className="w-full bg-transparent text-[#1A1A1A] text-sm font-bold placeholder:text-[#CCC] outline-none"
+            />
+            {savingsEUR > 0 && (
+              <p className="text-[9px] text-[#888] mt-1">R$ {fmt(brlFromEur)}</p>
+            )}
+            {savingsCurrency === null && (
+              <p className="text-[9px] text-[#AAA] mt-1">…ou aqui</p>
+            )}
+          </div>
+        </div>
+      </div>
 
       {input.visaType === 'D2' && (
         <NumericInput
@@ -68,27 +174,27 @@ export default function InputPanel({ input, onChange }: Props) {
         />
       )}
 
-      <div className="h-px bg-slate-700 my-3" />
-      <p className="text-indigo-400 text-[10px] uppercase tracking-widest mb-3">Agregado Familiar</p>
+      <div className="h-px bg-[#E8E5E0] my-3.5" />
+      <SectionLabel>Agregado Familiar</SectionLabel>
       <FamilyBuilder family={input.family} onChange={family => set({ family })} />
 
-      <div className="h-px bg-slate-700 my-3" />
-      <p className="text-indigo-400 text-[10px] uppercase tracking-widest mb-3">Opções</p>
+      <div className="h-px bg-[#E8E5E0] my-3.5" />
+      <SectionLabel>Opções</SectionLabel>
 
-      <div className="space-y-2">
+      <Toggle
+        label="Cidadão CPLP com Termo de Responsabilidade"
+        sub="Brasil, Angola, Cabo Verde…"
+        checked={input.hasCPLPTerm}
+        onToggle={() => set({ hasCPLPTerm: !input.hasCPLPTerm })}
+      />
+      {input.visaType === 'D8' && (
         <Toggle
-          label="Cidadão CPLP com Termo de Responsabilidade"
-          checked={input.hasCPLPTerm}
-          onToggle={() => set({ hasCPLPTerm: !input.hasCPLPTerm })}
+          label="Modo Conservador"
+          sub="Apenas Visto D8"
+          checked={input.conservativeMode}
+          onToggle={() => set({ conservativeMode: !input.conservativeMode })}
         />
-        {input.visaType === 'D8' && (
-          <Toggle
-            label="Modo Conservador"
-            checked={input.conservativeMode}
-            onToggle={() => set({ conservativeMode: !input.conservativeMode })}
-          />
-        )}
-      </div>
+      )}
     </div>
   )
 }
