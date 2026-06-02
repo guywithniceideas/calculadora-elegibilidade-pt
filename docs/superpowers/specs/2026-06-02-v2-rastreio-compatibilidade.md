@@ -171,7 +171,7 @@ max total:          99 pts = 99% (nunca 100%)
 - Campo de nome: "Seu nome completo"
 
 ### 7.5 Botão de PDF
-- Texto: "Receber Relatório Preliminar para Assessoria Jurídica"
+- Texto: "Receber Relatório Preliminar em PDF (Para mandar para Assessoria Jurídica)"
 
 ---
 
