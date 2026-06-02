@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import InputPanel from '@/components/InputPanel'
 import type { CalculatorInput } from '@/lib/types'
@@ -33,20 +33,6 @@ describe('InputPanel', () => {
   it('renders renda mensal label', () => {
     render(<InputPanel input={defaultInput} onChange={vi.fn()} {...defaultExtraProps} />)
     expect(screen.getByText('Renda mensal comprovável')).toBeInTheDocument()
-  })
-
-  it('CPLP toggle calls onChange with hasCPLPTerm: true', () => {
-    const onChange = vi.fn()
-    render(<InputPanel input={defaultInput} onChange={onChange} {...defaultExtraProps} />)
-    fireEvent.click(screen.getByLabelText('Cidadão CPLP com Termo de Responsabilidade'))
-    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ hasCPLPTerm: true }))
-  })
-
-  it('Modo Conservador toggle only visible for D8', () => {
-    const { rerender } = render(<InputPanel input={defaultInput} onChange={vi.fn()} {...defaultExtraProps} />)
-    expect(screen.queryByLabelText('Modo Conservador')).not.toBeInTheDocument()
-    rerender(<InputPanel input={{ ...defaultInput, visaType: 'D8' }} onChange={vi.fn()} {...defaultExtraProps} />)
-    expect(screen.getByLabelText('Modo Conservador')).toBeInTheDocument()
   })
 
   it('Capital da empresa field only visible for D2', () => {

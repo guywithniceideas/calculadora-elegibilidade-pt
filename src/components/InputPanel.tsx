@@ -178,23 +178,6 @@ export default function InputPanel({
       <SectionLabel>Agregado Familiar</SectionLabel>
       <FamilyBuilder family={input.family} onChange={family => set({ family })} />
 
-      <div className="h-px bg-[#E8E5E0] my-3.5" />
-      <SectionLabel>Opções</SectionLabel>
-
-      <Toggle
-        label="Cidadão CPLP com Termo de Responsabilidade"
-        sub="Brasil, Angola, Cabo Verde…"
-        checked={input.hasCPLPTerm}
-        onToggle={() => set({ hasCPLPTerm: !input.hasCPLPTerm })}
-      />
-      {input.visaType === 'D8' && (
-        <Toggle
-          label="Modo Conservador"
-          sub="Apenas Visto D8"
-          checked={input.conservativeMode}
-          onToggle={() => set({ conservativeMode: !input.conservativeMode })}
-        />
-      )}
     </div>
   )
 }
