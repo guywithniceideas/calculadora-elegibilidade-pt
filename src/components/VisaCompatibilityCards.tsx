@@ -12,11 +12,6 @@ function barColor(score: number): string {
   return 'bg-[#8B2E2E]'
 }
 
-function pctColor(score: number): string {
-  if (score >= 75) return 'text-[#2E6B3E]'
-  if (score >= 40) return 'text-[#e6c143]'
-  return 'text-[#8B2E2E]'
-}
 
 export default function VisaCompatibilityCards({ scores, step, activeVisaId }: Props) {
   return (
@@ -35,7 +30,7 @@ export default function VisaCompatibilityCards({ scores, step, activeVisaId }: P
           >
             <div className="flex justify-between items-baseline mb-1.5">
               <span className="text-xs font-bold text-[#1A1A1A]">{vs.label}</span>
-              <span className={`text-xs font-black ${pctColor(vs.score)}`}>{vs.score}%</span>
+              <span className="text-xs font-black text-[#444]">{vs.score}%</span>
             </div>
             <div className="bg-[#E8E5E0] h-1.5 rounded-full overflow-hidden mb-1.5">
               <div
