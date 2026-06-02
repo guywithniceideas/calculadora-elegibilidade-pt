@@ -40,10 +40,14 @@ export type Step = 1 | 2
 
 export type VisaTypeId = 'D1' | 'D2' | 'D4' | 'D7' | 'D8'
 
+export type Objetivo = 'presencial' | 'remoto' | 'empreender' | 'renda_passiva' | 'estudar'
+export type Situacao = 'empregado' | 'freelancer' | 'empresario' | 'aposentado' | 'investidor' | 'estudante'
+export type Familia  = 'sozinho' | 'conjuge' | 'conjuge_filhos' | 'filhos'
+
 export interface ScreeningAnswers {
-  objetivo: string | null
-  situacao: string | null
-  familia: string | null
+  objetivo: Objetivo | null
+  situacao: Situacao | null
+  familia:  Familia  | null
 }
 
 export interface VisaScore {

@@ -36,13 +36,13 @@ export function scoreVisas(answers: ScreeningAnswers): VisaScore[] {
 
   if (answers.objetivo) {
     for (const [id, pts] of Object.entries(OBJECTIVE_SCORES[answers.objetivo] ?? {})) {
-      scores[id as VisaTypeId] += pts as number
+      scores[id as VisaTypeId] += pts
     }
   }
 
   if (answers.situacao) {
     for (const [id, pts] of Object.entries(SITUACAO_SCORES[answers.situacao] ?? {})) {
-      scores[id as VisaTypeId] += pts as number
+      scores[id as VisaTypeId] += pts
     }
     // CLT only counts toward D8 when objective is remote
     if (answers.situacao === 'empregado' && answers.objetivo !== 'remoto') {
@@ -84,7 +84,7 @@ export function getTop3Visas(visaScores: VisaScore[]): VisaScore[] {
       score: 0,
     }))
   }
-  return visaScores.slice(0, 3)
+  return [...visaScores].sort((a, b) => b.score - a.score).slice(0, 3)
 }
 
 export function familyFromFamilia(
