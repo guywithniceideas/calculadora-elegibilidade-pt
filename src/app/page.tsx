@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { calculate } from '@/lib/calculator'
+import { fetchEurToBrlRate, brlToEur } from '@/lib/exchangeRate'
 import type { CalculatorInput } from '@/lib/types'
 import VisaTypeTabs from '@/components/VisaTypeTabs'
 import InputPanel from '@/components/InputPanel'
@@ -19,6 +20,62 @@ const initialInput: CalculatorInput = {
 export default function Home() {
   const [input, setInput] = useState<CalculatorInput>(initialInput)
 
+  // Exchange rate state
+  const [exchangeRate, setExchangeRate] = useState(5.85)
+  const [rateDate, setRateDate] = useState('')
+  const [rateSource, setRateSource] = useState<'live' | 'fallback'>('fallback')
+
+  // BRL income (raw user input)
+  const [incomeBRL, setIncomeBRL] = useState(0)
+
+  // Savings dual input
+  const [savingsBRL, setSavingsBRL] = useState(0)
+  const [savingsEUR, setSavingsEUR] = useState(0)
+  const [savingsCurrency, setSavingsCurrency] = useState<'BRL' | 'EUR' | null>(null)
+
+  // Fetch live exchange rate on mount
+  useEffect(() => {
+    fetchEurToBrlRate().then(result => {
+      setExchangeRate(result.rate)
+      setRateDate(result.date)
+      setRateSource(result.source)
+    })
+  }, [])
+
+  // When BRL income changes, update EUR income in calculator input
+  function handleIncomeBRLChange(brl: number) {
+    setIncomeBRL(brl)
+    const eur = brlToEur(brl, exchangeRate)
+    setInput(prev => ({ ...prev, monthlyIncome: eur }))
+  }
+
+  // Savings: BRL filled → compute EUR, lock EUR field
+  function handleSavingsBRLChange(brl: number) {
+    setSavingsBRL(brl)
+    if (brl > 0) {
+      const eur = brlToEur(brl, exchangeRate)
+      setSavingsEUR(0)
+      setSavingsCurrency('BRL')
+      setInput(prev => ({ ...prev, savingsInPortugal: eur }))
+    } else {
+      setSavingsCurrency(null)
+      setInput(prev => ({ ...prev, savingsInPortugal: 0 }))
+    }
+  }
+
+  // Savings: EUR filled → compute BRL, lock BRL field
+  function handleSavingsEURChange(eur: number) {
+    setSavingsEUR(eur)
+    if (eur > 0) {
+      setSavingsBRL(0)
+      setSavingsCurrency('EUR')
+      setInput(prev => ({ ...prev, savingsInPortugal: eur }))
+    } else {
+      setSavingsCurrency(null)
+      setInput(prev => ({ ...prev, savingsInPortugal: 0 }))
+    }
+  }
+
   function handleChange(updated: CalculatorInput) {
     if (updated.visaType !== 'D8') {
       setInput({ ...updated, conservativeMode: false })
@@ -34,36 +91,86 @@ export default function Home() {
   const result = calculate(input)
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Nav */}
-      <header className="bg-slate-800 border-b border-slate-700 px-6 py-3 flex items-center justify-between">
+    <div className="min-h-screen flex flex-col" style={{ background: '#EDEBE7' }}>
+
+      {/* ── NAV ── */}
+      <header className="bg-white shadow-sm px-4 md:px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xl">🇵🇹</span>
-          <span className="text-slate-100 font-bold">ElegiPortugal</span>
-          <span className="bg-slate-700 text-slate-400 text-[10px] px-2 py-0.5 rounded ml-1">2026</span>
+          <span className="text-lg">🇵🇹</span>
+          <span className="text-sm md:text-base font-extrabold text-[#1A1A1A] tracking-tight">
+            Calculadora de Elegibilidade PT
+          </span>
+          <span className="hidden sm:inline bg-[#F0EFED] text-[#555] text-[9px] font-bold px-2 py-0.5 rounded-full">2026</span>
         </div>
-        <span className="text-slate-500 text-xs">
-          RMMG vigente: <span className="text-indigo-400 font-semibold">€ 920,00</span>
-        </span>
+        <div className="flex items-center gap-2 text-xs text-[#666]">
+          <span>RMMG: <strong className="text-[#1A1A1A]">€ 920,00</strong></span>
+          {rateSource === 'live' && rateDate && (
+            <span className="hidden md:flex items-center gap-1 text-[#888]">
+              <span className="w-1.5 h-1.5 bg-[#555] rounded-full" />
+              1 EUR = R$ {exchangeRate.toFixed(2)}
+            </span>
+          )}
+        </div>
       </header>
 
-      {/* Tabs */}
-      <div className="px-6 pt-4 pb-0">
+      {/* ── TABS ── */}
+      <div className="px-4 md:px-6 pt-3 pb-0">
         <VisaTypeTabs active={input.visaType} onChange={handleTabChange} />
       </div>
 
-      {/* Dashboard */}
-      <main className="flex flex-1 gap-0 mx-6 mt-2 mb-6 border border-slate-700 rounded-xl overflow-hidden">
-        <div className="w-[380px] min-w-[320px] border-r border-slate-700 bg-slate-800/50">
-          <InputPanel input={input} onChange={handleChange} />
+      {/* ── MAIN CONTENT ──
+          Desktop: side-by-side split panel
+          Mobile: single column, inputs above results */}
+      <main className="flex-1 px-4 md:px-6 pt-2 pb-6">
+
+        {/* Desktop split layout */}
+        <div className="hidden md:flex gap-3 h-full">
+          <div
+            className="bg-white rounded-3xl shadow-sm overflow-hidden flex-shrink-0"
+            style={{ width: '360px' }}
+          >
+            <InputPanel
+              input={input}
+              onChange={handleChange}
+              exchangeRate={exchangeRate}
+              incomeBRL={incomeBRL}
+              onIncomeBRLChange={handleIncomeBRLChange}
+              savingsBRL={savingsBRL}
+              savingsEUR={savingsEUR}
+              savingsCurrency={savingsCurrency}
+              onSavingsBRLChange={handleSavingsBRLChange}
+              onSavingsEURChange={handleSavingsEURChange}
+            />
+          </div>
+          <div className="flex-1 bg-white rounded-3xl shadow-sm overflow-hidden">
+            <ResultPanel result={result} input={input} />
+          </div>
         </div>
-        <div className="flex-1 bg-slate-950">
-          <ResultPanel result={result} input={input} />
+
+        {/* Mobile single column layout */}
+        <div className="md:hidden flex flex-col gap-3">
+          <div className="bg-white rounded-3xl shadow-sm">
+            <InputPanel
+              input={input}
+              onChange={handleChange}
+              exchangeRate={exchangeRate}
+              incomeBRL={incomeBRL}
+              onIncomeBRLChange={handleIncomeBRLChange}
+              savingsBRL={savingsBRL}
+              savingsEUR={savingsEUR}
+              savingsCurrency={savingsCurrency}
+              onSavingsBRLChange={handleSavingsBRLChange}
+              onSavingsEURChange={handleSavingsEURChange}
+            />
+          </div>
+          <div className="bg-white rounded-3xl shadow-sm">
+            <ResultPanel result={result} input={input} />
+          </div>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="text-center text-slate-600 text-[10px] pb-4">
+      {/* ── FOOTER ── */}
+      <footer className="text-center text-[10px] font-medium text-[#AAA] pb-4 px-4">
         Baseado no Decreto-Lei n.º 139/2025 e Portaria n.º 1563/2007 · Documento informativo, não substitui consultoria jurídica
       </footer>
     </div>
