@@ -1,9 +1,8 @@
 'use client'
 import type { CalculatorInput, CalculatorResult } from '@/lib/types'
-import StatusBadge from './StatusBadge'
+import CompatibilityBadge from './CompatibilityBadge'
 import ProgressBar from './ProgressBar'
 import AlertCard from './AlertCard'
-import DownloadPdfButton from './DownloadPdfButton'
 
 function fmt(n: number) {
   return `€ ${n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -12,27 +11,26 @@ function fmt(n: number) {
 interface Props {
   result: CalculatorResult
   input: CalculatorInput
+  topVisaScore: number
+  onRequestReport: () => void
 }
 
-export default function ResultPanel({ result, input }: Props) {
+export default function ResultPanel({ result, input, topVisaScore, onRequestReport }: Props) {
   const {
     requiredMonthlyIncome, requiredSavings,
     incomeStatus, savingsStatus,
     incomePercent, savingsPercent,
-    overallStatus, alerts,
+    alerts,
   } = result
 
   return (
     <div className="h-full overflow-y-auto p-5 flex flex-col gap-4">
-      {/* Live label */}
       <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#666]">
         Resultado em tempo real
       </p>
 
-      {/* Status card — dark */}
-      <StatusBadge status={overallStatus} />
+      <CompatibilityBadge score={topVisaScore} />
 
-      {/* Required values */}
       <div className="grid grid-cols-2 gap-2.5">
         <div className="bg-white rounded-2xl p-3.5 shadow-sm">
           <p className="text-[9px] font-black tracking-wide uppercase text-[#666] mb-1.5">Renda exigida</p>
@@ -46,21 +44,11 @@ export default function ResultPanel({ result, input }: Props) {
         </div>
       </div>
 
-      {/* Progress bars */}
       <div className="bg-white rounded-2xl p-4 shadow-sm">
-        <ProgressBar
-          label="Renda: informada vs. exigida"
-          percent={incomePercent}
-          status={incomeStatus}
-        />
-        <ProgressBar
-          label="Poupança: informada vs. exigida"
-          percent={savingsPercent}
-          status={savingsStatus}
-        />
+        <ProgressBar label="Renda: informada vs. exigida" percent={incomePercent} status={incomeStatus} />
+        <ProgressBar label="Poupança: informada vs. exigida" percent={savingsPercent} status={savingsStatus} />
       </div>
 
-      {/* Alerts */}
       {alerts.length > 0 && (
         <div>
           {alerts.map((alert, i) => (
@@ -69,11 +57,18 @@ export default function ResultPanel({ result, input }: Props) {
         </div>
       )}
 
-      {/* PDF download */}
       <div className="mt-auto">
-        <DownloadPdfButton input={input} result={result} />
+        <button
+          onClick={onRequestReport}
+          className="w-full bg-[#1A1A1A] hover:bg-[#333] text-white py-3 rounded-2xl text-sm font-bold transition-colors"
+        >
+          Receber Relatório Preliminar em PDF (Para mandar para Assessoria Jurídica)
+        </button>
         <p className="text-center text-[10px] font-medium text-[#AAA] mt-2">
           Documento em PT-BR · para assessorias jurídicas
+        </p>
+        <p className="text-center text-[10px] text-[#AAA] mt-3 leading-relaxed px-2">
+          Esta calculadora é uma ferramenta informativa e não substitui uma consulta jurídica. Mesmo com alta compatibilidade, detalhes do seu perfil só podem ser avaliados por um profissional.
         </p>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 
 vi.mock('@/components/DownloadPdfButton', () => ({
-  default: () => <button>Baixar Relatório de Elegibilidade (PDF)</button>,
+  default: () => <button>PDF</button>,
 }))
 
 import ResultPanel from '@/components/ResultPanel'
@@ -29,32 +29,50 @@ const eligibleResult: CalculatorResult = {
   alerts: [],
 }
 
-const partialResult: CalculatorResult = {
-  ...eligibleResult,
-  savingsStatus: 'warning',
-  savingsPercent: 80,
-  overallStatus: 'partial',
-  alerts: [{ type: 'warning', title: 'Poupança insuficiente', message: 'Precisa de mais €2.000' }],
-}
-
 describe('ResultPanel', () => {
   it('shows required income value', () => {
-    render(<ResultPanel result={eligibleResult} input={defaultInput} />)
+    render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={vi.fn()} />)
     expect(screen.getByText('€ 920,00')).toBeInTheDocument()
   })
 
   it('shows required savings value', () => {
-    render(<ResultPanel result={eligibleResult} input={defaultInput} />)
+    render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={vi.fn()} />)
     expect(screen.getByText('€ 11.040,00')).toBeInTheDocument()
   })
 
-  it('shows alert title when alerts exist', () => {
-    render(<ResultPanel result={partialResult} input={defaultInput} />)
-    expect(screen.getByText('Poupança insuficiente')).toBeInTheDocument()
+  it('score 99 shows Perfil Altamente Compatível badge', () => {
+    render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={vi.fn()} />)
+    expect(screen.getByText('Perfil Altamente Compatível')).toBeInTheDocument()
   })
 
-  it('PDF button is present', () => {
-    render(<ResultPanel result={eligibleResult} input={defaultInput} />)
-    expect(screen.getByText(/Baixar Relatório/)).toBeInTheDocument()
+  it('score 80 shows Compatibilidade Moderada badge', () => {
+    render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={80} onRequestReport={vi.fn()} />)
+    expect(screen.getByText('Compatibilidade Moderada')).toBeInTheDocument()
+  })
+
+  it('PDF button shows correct copy', () => {
+    render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={vi.fn()} />)
+    expect(screen.getByText('Receber Relatório Preliminar em PDF (Para mandar para Assessoria Jurídica)')).toBeInTheDocument()
+  })
+
+  it('disclaimer is visible', () => {
+    render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={vi.fn()} />)
+    expect(screen.getByText(/não substitui uma consulta jurídica/i)).toBeInTheDocument()
+  })
+
+  it('clicking button calls onRequestReport', () => {
+    const onRequestReport = vi.fn()
+    render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={onRequestReport} />)
+    screen.getByText('Receber Relatório Preliminar em PDF (Para mandar para Assessoria Jurídica)').click()
+    expect(onRequestReport).toHaveBeenCalled()
+  })
+
+  it('shows alert when present', () => {
+    const resultWithAlert = {
+      ...eligibleResult,
+      alerts: [{ type: 'warning' as const, title: 'Poupança insuficiente', message: 'Falta R$ 1.000' }],
+    }
+    render(<ResultPanel result={resultWithAlert} input={defaultInput} topVisaScore={80} onRequestReport={vi.fn()} />)
+    expect(screen.getByText('Poupança insuficiente')).toBeInTheDocument()
   })
 })
