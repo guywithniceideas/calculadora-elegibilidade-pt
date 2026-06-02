@@ -19,7 +19,7 @@ function Button({ input, result }: Props) {
     <PDFDownloadLink
       document={<PdfDocument input={input} result={result} generatedAt={now} />}
       fileName={filename}
-      className="block w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg text-sm font-semibold transition-colors text-center"
+      className="block w-full bg-[#1A1A1A] hover:bg-[#333] text-white py-3 rounded-2xl text-sm font-bold transition-colors text-center"
     >
       {({ loading }) => loading ? 'Gerando PDF...' : '📄 Baixar Relatório de Elegibilidade (PDF)'}
     </PDFDownloadLink>
