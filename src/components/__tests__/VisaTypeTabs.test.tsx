@@ -17,9 +17,9 @@ describe('VisaTypeTabs', () => {
     expect(onChange).toHaveBeenCalledWith('D8')
   })
 
-  it('active tab has indigo background', () => {
+  it('active tab has dark background', () => {
     render(<VisaTypeTabs active="D2" onChange={vi.fn()} />)
     const d2Tab = screen.getByText(/D2/).closest('button')
-    expect(d2Tab).toHaveClass('bg-indigo-600')
+    expect(d2Tab).toHaveClass('bg-[#1A1A1A]')
   })
 })

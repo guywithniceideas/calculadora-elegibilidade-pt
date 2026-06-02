@@ -1,17 +1,17 @@
 import type { CriterionStatus } from '@/lib/types'
 
-const barColor: Record<CriterionStatus, string> = {
-  pass: 'bg-emerald-500',
-  warning: 'bg-amber-500',
-  fail: 'bg-red-500',
-  waived: 'bg-slate-500',
+const fillColor: Record<CriterionStatus, string> = {
+  pass:    'bg-[#1A1A1A]',
+  warning: 'bg-[#BBBBB8]',
+  fail:    'bg-[#BBBBB8]',
+  waived:  'bg-[#DEDBD6]',
 }
 
-const labelColor: Record<CriterionStatus, string> = {
-  pass: 'text-emerald-400',
-  warning: 'text-amber-400',
-  fail: 'text-red-400',
-  waived: 'text-slate-400',
+const pctColor: Record<CriterionStatus, string> = {
+  pass:    'text-[#1A1A1A]',
+  warning: 'text-[#777]',
+  fail:    'text-[#999]',
+  waived:  'text-[#AAA]',
 }
 
 interface Props {
@@ -25,18 +25,18 @@ export default function ProgressBar({ label, sublabel, percent, status }: Props)
   const displayPct = Math.min(percent, 100)
   return (
     <div className="mb-3">
-      <div className="flex justify-between items-baseline mb-1">
+      <div className="flex justify-between items-baseline mb-1.5">
         <div>
-          <span className="text-slate-300 text-xs">{label}</span>
-          {sublabel && <span className="text-slate-500 text-xs ml-1">{sublabel}</span>}
+          <span className="text-[#444] text-xs font-semibold">{label}</span>
+          {sublabel && <span className="text-[#999] text-xs ml-1">{sublabel}</span>}
         </div>
-        <span className={`text-xs font-semibold ${labelColor[status]}`}>
+        <span className={`text-xs font-bold ${pctColor[status]}`}>
           {status === 'waived' ? 'Dispensado' : `${percent}%`}
         </span>
       </div>
-      <div className="bg-slate-800 h-1.5 rounded-full overflow-hidden">
+      <div className="bg-[#E8E5E0] h-1.5 rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all duration-300 ${barColor[status]}`}
+          className={`h-full rounded-full transition-all duration-300 ${fillColor[status]}`}
           style={{ width: `${displayPct}%` }}
         />
       </div>

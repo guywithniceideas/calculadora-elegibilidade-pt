@@ -14,19 +14,19 @@ interface Props {
 
 export default function VisaTypeTabs({ active, onChange }: Props) {
   return (
-    <div className="flex gap-1 p-1 bg-slate-900 rounded-lg">
+    <div className="flex gap-1 p-1.5 bg-white rounded-2xl shadow-sm">
       {tabs.map(tab => (
         <button
           key={tab.id}
           onClick={() => onChange(tab.id)}
-          className={`flex-1 px-3 py-2 rounded-md text-xs font-semibold transition-colors ${
+          className={`flex-1 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-150 ${
             active === tab.id
-              ? 'bg-indigo-600 text-white'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+              ? 'bg-[#1A1A1A] text-white'
+              : 'bg-transparent text-[#666] hover:bg-[#F4F2EE] hover:text-[#1A1A1A]'
           }`}
         >
           <span className="font-bold">{tab.label}</span>
-          <span className="block text-[10px] font-normal opacity-80">{tab.sub}</span>
+          <span className="block text-[10px] font-normal mt-0.5 opacity-70">{tab.sub}</span>
         </button>
       ))}
     </div>

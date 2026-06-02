@@ -1,9 +1,9 @@
 import type { AlertType } from '@/lib/types'
 
-const styles: Record<AlertType, { border: string; title: string; icon: string }> = {
-  info: { border: 'border-indigo-500', title: 'text-indigo-300', icon: 'ℹ️' },
-  warning: { border: 'border-amber-500', title: 'text-amber-300', icon: '⚠️' },
-  error: { border: 'border-red-500', title: 'text-red-300', icon: '🚨' },
+const styles: Record<AlertType, { border: string; titleColor: string; iconBg: string }> = {
+  info:    { border: 'border-[#E8E5E0]', titleColor: 'text-[#1A1A1A]', iconBg: 'bg-[#1A1A1A]' },
+  warning: { border: 'border-[#E0DDD8]', titleColor: 'text-[#1A1A1A]', iconBg: 'bg-[#1A1A1A]' },
+  error:   { border: 'border-[#D8D4CE]', titleColor: 'text-[#1A1A1A]', iconBg: 'bg-[#1A1A1A]' },
 }
 
 interface Props {
@@ -13,13 +13,16 @@ interface Props {
 }
 
 export default function AlertCard({ type, title, message }: Props) {
-  const { border, title: titleColor, icon } = styles[type]
+  const { border, titleColor, iconBg } = styles[type]
   return (
-    <div className={`border-l-2 ${border} bg-slate-800 rounded-r-md px-3 py-2 mb-2`}>
-      <p className={`text-xs font-semibold mb-0.5 ${titleColor}`}>
-        <span>{icon}</span> <span>{title}</span>
-      </p>
-      <p className="text-xs text-slate-400">{message}</p>
+    <div className={`flex gap-3 items-start bg-[#F4F2EE] border ${border} rounded-2xl px-3.5 py-3 mb-2`}>
+      <div className={`w-6 h-6 ${iconBg} rounded-lg flex items-center justify-center text-white text-[10px] font-black flex-shrink-0 mt-0.5`}>
+        !
+      </div>
+      <div>
+        <p className={`text-xs font-bold mb-0.5 ${titleColor}`}>{title}</p>
+        <p className="text-xs text-[#555] leading-relaxed">{message}</p>
+      </div>
     </div>
   )
 }
