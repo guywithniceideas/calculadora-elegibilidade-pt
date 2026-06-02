@@ -8,13 +8,13 @@ interface Props {
 
 function barColor(score: number): string {
   if (score >= 75) return 'bg-[#2E6B3E]'
-  if (score >= 40) return 'bg-[#8B6A1A]'
+  if (score >= 40) return 'bg-[#9C8535]'
   return 'bg-[#8B2E2E]'
 }
 
 function pctColor(score: number): string {
   if (score >= 75) return 'text-[#2E6B3E]'
-  if (score >= 40) return 'text-[#8B6A1A]'
+  if (score >= 40) return 'text-[#9C8535]'
   return 'text-[#8B2E2E]'
 }
 
