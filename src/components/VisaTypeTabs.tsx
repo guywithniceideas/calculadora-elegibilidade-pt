@@ -2,11 +2,11 @@
 import type { VisaType } from '@/lib/types'
 
 const tabs: { id: VisaType; label: string; sub: string }[] = [
+  { id: 'D1', label: 'D1', sub: 'Trabalho CLT' },
+  { id: 'D2', label: 'D2', sub: 'Empreendedor' },
+  { id: 'D4', label: 'D4', sub: 'Estudante' },
   { id: 'D7', label: 'D7', sub: 'Renda Passiva' },
   { id: 'D8', label: 'D8', sub: 'Nômade Digital' },
-  { id: 'D2', label: 'D2', sub: 'Empreendedor' },
-  { id: 'D1', label: 'D1', sub: 'Trabalho CLT' },
-  { id: 'D4', label: 'D4', sub: 'Estudante' },
 ]
 
 interface Props {
