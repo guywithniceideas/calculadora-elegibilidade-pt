@@ -31,9 +31,11 @@ const FAMILIA_OPTIONS: { value: Familia; label: string }[] = [
   { value: 'filhos',         label: 'Só com Filhos' },
 ]
 
-function SectionLabel({ children }: { children: string }) {
+function Question({ children }: { children: string }) {
   return (
-    <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#666] mb-2.5">{children}</p>
+    <h2 className="text-lg font-semibold text-[#1A1A1A] leading-snug tracking-tight mb-3">
+      {children}
+    </h2>
   )
 }
 
@@ -47,12 +49,12 @@ function ChipGroup<T extends string>({
   onSelect: (v: T | null) => void
 }) {
   return (
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className="flex flex-wrap gap-2 mb-5">
       {options.map(opt => (
         <button
           key={opt.value}
           onClick={() => onSelect(selected === opt.value ? null : opt.value)}
-          className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+          className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
             selected === opt.value
               ? 'bg-[#1A1A1A] text-white'
               : 'bg-[#F4F2EE] text-[#555] border border-dashed border-[#CCC] hover:border-[#999] hover:text-[#1A1A1A]'
@@ -70,28 +72,28 @@ export default function ScreeningPanel({ answers, onChange, onNext }: Props) {
   const set = (patch: Partial<ScreeningAnswers>) => onChange({ ...answers, ...patch })
 
   return (
-    <div className="h-full overflow-y-auto p-5 flex flex-col">
-      <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#666] mb-4">Rastreio de Perfil</p>
+    <div className="h-full overflow-y-auto p-6 flex flex-col">
+      <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#AAA] mb-6">Rastreio de Perfil</p>
 
-      <SectionLabel>Qual seu objetivo em Portugal?</SectionLabel>
+      <Question>Qual seu objetivo em Portugal?</Question>
       <ChipGroup
         options={OBJETIVO_OPTIONS}
         selected={answers.objetivo}
         onSelect={v => set({ objetivo: v })}
       />
 
-      <div className="h-px bg-[#E8E5E0] mb-4" />
+      <div className="h-px bg-[#E8E5E0] mb-5" />
 
-      <SectionLabel>Qual sua situação profissional?</SectionLabel>
+      <Question>Qual sua situação profissional?</Question>
       <ChipGroup
         options={SITUACAO_OPTIONS}
         selected={answers.situacao}
         onSelect={v => set({ situacao: v })}
       />
 
-      <div className="h-px bg-[#E8E5E0] mb-4" />
+      <div className="h-px bg-[#E8E5E0] mb-5" />
 
-      <SectionLabel>Quem vem com você?</SectionLabel>
+      <Question>Quem vem com você?</Question>
       <ChipGroup
         options={FAMILIA_OPTIONS}
         selected={answers.familia}
