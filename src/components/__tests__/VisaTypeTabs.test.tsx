@@ -3,11 +3,13 @@ import { describe, it, expect, vi } from 'vitest'
 import VisaTypeTabs from '@/components/VisaTypeTabs'
 
 describe('VisaTypeTabs', () => {
-  it('renders all three tabs', () => {
+  it('renders all five tabs', () => {
     render(<VisaTypeTabs active="D7" onChange={vi.fn()} />)
     expect(screen.getByText(/D7/)).toBeInTheDocument()
     expect(screen.getByText(/D8/)).toBeInTheDocument()
     expect(screen.getByText(/D2/)).toBeInTheDocument()
+    expect(screen.getByText(/D1/)).toBeInTheDocument()
+    expect(screen.getByText(/D4/)).toBeInTheDocument()
   })
 
   it('clicking D8 tab calls onChange with D8', () => {
@@ -17,9 +19,9 @@ describe('VisaTypeTabs', () => {
     expect(onChange).toHaveBeenCalledWith('D8')
   })
 
-  it('active tab has dark background', () => {
-    render(<VisaTypeTabs active="D2" onChange={vi.fn()} />)
-    const d2Tab = screen.getByText(/D2/).closest('button')
-    expect(d2Tab).toHaveClass('bg-[#1A1A1A]')
+  it('active tab has bg-[#1A1A1A] class', () => {
+    render(<VisaTypeTabs active="D1" onChange={vi.fn()} />)
+    const d1Tab = screen.getByText(/D1/).closest('button')
+    expect(d1Tab).toHaveClass('bg-[#1A1A1A]')
   })
 })

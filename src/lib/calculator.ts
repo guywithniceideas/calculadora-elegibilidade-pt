@@ -82,6 +82,22 @@ function buildAlerts(input: CalculatorInput, requiredSavings: number): Alert[] {
     })
   }
 
+  if (visaType === 'D1') {
+    alerts.push({
+      type: 'info',
+      title: 'Visto D1 — Trabalho Subordinado',
+      message: 'Além dos requisitos financeiros, o D1 exige contrato de trabalho com empresa portuguesa e declaração do IEFP confirmando ausência de candidatos nacionais para a vaga.',
+    })
+  }
+
+  if (visaType === 'D4') {
+    alerts.push({
+      type: 'info',
+      title: 'Visto D4 — Estudante',
+      message: 'Além dos requisitos financeiros, o D4 exige carta de aceitação ou comprovativo de matrícula em instituição de ensino superior em Portugal.',
+    })
+  }
+
   if (visaType === 'D2' && businessCapital < D2_MIN_CAPITAL_WARNING) {
     alerts.push({
       type: 'error',

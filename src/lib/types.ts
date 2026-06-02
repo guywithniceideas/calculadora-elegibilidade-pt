@@ -1,4 +1,4 @@
-export type VisaType = 'D7' | 'D8' | 'D2'
+export type VisaType = 'D7' | 'D8' | 'D2' | 'D1' | 'D4'
 export type EligibilityStatus = 'eligible' | 'partial' | 'ineligible'
 export type CriterionStatus = 'pass' | 'warning' | 'fail' | 'waived'
 export type AlertType = 'info' | 'warning' | 'error'

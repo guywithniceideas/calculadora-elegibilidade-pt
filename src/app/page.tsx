@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { calculate } from '@/lib/calculator'
 import { fetchEurToBrlRate, brlToEur } from '@/lib/exchangeRate'
 import { scoreVisas, applyFinancialScore, getTop3Visas, familyFromFamilia } from '@/lib/compatibility'
-import type { CalculatorInput, ScreeningAnswers, Step } from '@/lib/types'
+import type { CalculatorInput, ScreeningAnswers, Step, VisaType } from '@/lib/types'
 import VisaTypeTabs from '@/components/VisaTypeTabs'
 import InputPanel from '@/components/InputPanel'
 import ResultPanel from '@/components/ResultPanel'
@@ -80,11 +80,10 @@ export default function Home() {
 
   function handleProceedToStep2() {
     const sorted = scoreVisas(screening)
-    const rawTopVisa = sorted[0]?.visaId ?? 'D7'
-    const validVisaTypes: CalculatorInput['visaType'][] = ['D7', 'D8', 'D2']
-    const topVisa: CalculatorInput['visaType'] = validVisaTypes.includes(rawTopVisa as CalculatorInput['visaType'])
-      ? (rawTopVisa as CalculatorInput['visaType'])
-      : 'D7'
+    const topVisaId = sorted[0]?.visaId ?? 'D7'
+    // D1 and D4 are now valid VisaType values — use directly
+    const validTypes: VisaType[] = ['D7', 'D8', 'D2', 'D1', 'D4']
+    const topVisa = validTypes.includes(topVisaId as VisaType) ? (topVisaId as VisaType) : 'D7'
     const family = familyFromFamilia(screening.familia)
     setInput(prev => ({ ...prev, visaType: topVisa, family }))
     setStep(2)
