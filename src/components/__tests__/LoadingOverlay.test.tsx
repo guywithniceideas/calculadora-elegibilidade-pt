@@ -11,26 +11,27 @@ describe('LoadingOverlay', () => {
     expect(screen.getByText('Preparando seu relatório preliminar...')).toBeInTheDocument()
   })
 
-  it('upsell text hidden before 1.5s', () => {
+  it('success message hidden before 3s', () => {
     render(<LoadingOverlay onClose={vi.fn()} />)
-    expect(screen.queryByText(/quanto vai gastar/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Relatório Preliminar enviado/i)).not.toBeInTheDocument()
   })
 
-  it('upsell appears after 1.5s', () => {
+  it('success message and upsell appear after 3s', () => {
     render(<LoadingOverlay onClose={vi.fn()} />)
-    act(() => { vi.advanceTimersByTime(1500) })
+    act(() => { vi.advanceTimersByTime(3000) })
+    expect(screen.getByText('Relatório Preliminar enviado por email!')).toBeInTheDocument()
     expect(screen.getByText(/quanto vai gastar/i)).toBeInTheDocument()
   })
 
-  it('close button hidden before 4s', () => {
+  it('close button hidden before 5s', () => {
     render(<LoadingOverlay onClose={vi.fn()} />)
-    act(() => { vi.advanceTimersByTime(1500) })
+    act(() => { vi.advanceTimersByTime(3000) })
     expect(screen.queryByText('Fechar e voltar à calculadora')).not.toBeInTheDocument()
   })
 
-  it('close button appears after 4s', () => {
+  it('close button appears after 5s', () => {
     render(<LoadingOverlay onClose={vi.fn()} />)
-    act(() => { vi.advanceTimersByTime(4000) })
+    act(() => { vi.advanceTimersByTime(5000) })
     expect(screen.getByText('Fechar e voltar à calculadora')).toBeInTheDocument()
   })
 })
