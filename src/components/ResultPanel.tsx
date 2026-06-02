@@ -23,25 +23,31 @@ export default function ResultPanel({ result, input }: Props) {
   } = result
 
   return (
-    <div className="h-full overflow-y-auto p-4 flex flex-col gap-4">
-      <p className="text-emerald-400 text-[10px] uppercase tracking-widest">Resultado em tempo real</p>
+    <div className="h-full overflow-y-auto p-5 flex flex-col gap-4">
+      {/* Live label */}
+      <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#666]">
+        Resultado em tempo real
+      </p>
 
+      {/* Status card — dark */}
       <StatusBadge status={overallStatus} />
 
-      <div className="grid grid-cols-2 gap-2">
-        <div className="bg-slate-800 rounded-lg p-3">
-          <p className="text-slate-400 text-[10px] mb-1">Renda exigida</p>
-          <p className="text-slate-100 text-base font-bold">{fmt(requiredMonthlyIncome)}</p>
-          <p className="text-slate-500 text-[10px]">/mês</p>
+      {/* Required values */}
+      <div className="grid grid-cols-2 gap-2.5">
+        <div className="bg-white rounded-2xl p-3.5 shadow-sm">
+          <p className="text-[9px] font-black tracking-wide uppercase text-[#666] mb-1.5">Renda exigida</p>
+          <p className="text-xl font-extrabold text-[#1A1A1A] tracking-tight">{fmt(requiredMonthlyIncome)}</p>
+          <p className="text-[10px] font-medium text-[#777] mt-1">/mês</p>
         </div>
-        <div className="bg-slate-800 rounded-lg p-3">
-          <p className="text-slate-400 text-[10px] mb-1">Poupança exigida</p>
-          <p className="text-slate-100 text-base font-bold">{fmt(requiredSavings)}</p>
-          <p className="text-slate-500 text-[10px]">em conta PT (12 meses)</p>
+        <div className="bg-white rounded-2xl p-3.5 shadow-sm">
+          <p className="text-[9px] font-black tracking-wide uppercase text-[#666] mb-1.5">Poupança exigida</p>
+          <p className="text-xl font-extrabold text-[#1A1A1A] tracking-tight">{fmt(requiredSavings)}</p>
+          <p className="text-[10px] font-medium text-[#777] mt-1">em conta PT · 12 meses</p>
         </div>
       </div>
 
-      <div>
+      {/* Progress bars */}
+      <div className="bg-white rounded-2xl p-4 shadow-sm">
         <ProgressBar
           label="Renda: informada vs. exigida"
           percent={incomePercent}
@@ -54,6 +60,7 @@ export default function ResultPanel({ result, input }: Props) {
         />
       </div>
 
+      {/* Alerts */}
       {alerts.length > 0 && (
         <div>
           {alerts.map((alert, i) => (
@@ -62,10 +69,11 @@ export default function ResultPanel({ result, input }: Props) {
         </div>
       )}
 
+      {/* PDF download */}
       <div className="mt-auto">
         <DownloadPdfButton input={input} result={result} />
-        <p className="text-center text-slate-500 text-[10px] mt-2">
-          Documento em PT-BR formatado para assessorias jurídicas
+        <p className="text-center text-[10px] font-medium text-[#AAA] mt-2">
+          Documento em PT-BR · para assessorias jurídicas
         </p>
       </div>
     </div>
