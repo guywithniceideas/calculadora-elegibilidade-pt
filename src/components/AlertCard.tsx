@@ -17,7 +17,7 @@ export default function AlertCard({ type, title, message }: Props) {
   return (
     <div className={`border-l-2 ${border} bg-slate-800 rounded-r-md px-3 py-2 mb-2`}>
       <p className={`text-xs font-semibold mb-0.5 ${titleColor}`}>
-        {icon} {title}
+        <span>{icon}</span> <span>{title}</span>
       </p>
       <p className="text-xs text-slate-400">{message}</p>
     </div>
