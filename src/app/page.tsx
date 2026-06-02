@@ -180,13 +180,13 @@ export default function Home() {
               </div>
             ) : (
               <div className="h-full overflow-y-auto p-5 flex flex-col gap-4">
-                <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
                 <ResultPanel
                   result={result}
                   input={input}
                   topVisaScore={topVisaScore}
                   onRequestReport={handleRequestReport}
                 />
+                <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
               </div>
             )}
           </div>
@@ -223,9 +223,6 @@ export default function Home() {
                   onSavingsEURChange={handleSavingsEURChange}
                 />
               </div>
-              <div className="bg-white rounded-3xl shadow-sm p-5">
-                <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
-              </div>
               <div className="bg-white rounded-3xl shadow-sm">
                 <ResultPanel
                   result={result}
@@ -233,6 +230,9 @@ export default function Home() {
                   topVisaScore={topVisaScore}
                   onRequestReport={handleRequestReport}
                 />
+              </div>
+              <div className="bg-white rounded-3xl shadow-sm p-5">
+                <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
               </div>
             </>
           )}
