@@ -35,3 +35,20 @@ export interface CalculatorResult {
   overallStatus: EligibilityStatus
   alerts: Alert[]
 }
+
+export type Step = 1 | 2
+
+export type VisaTypeId = 'D1' | 'D2' | 'D4' | 'D7' | 'D8'
+
+export interface ScreeningAnswers {
+  objetivo: string | null
+  situacao: string | null
+  familia: string | null
+}
+
+export interface VisaScore {
+  visaId: VisaTypeId
+  label: string
+  description: string
+  score: number
+}
