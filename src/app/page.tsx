@@ -152,7 +152,11 @@ export default function Home() {
 
         {/* Desktop */}
         <div className="hidden md:flex gap-3 h-full">
-          <div className="bg-white rounded-3xl shadow-sm overflow-hidden flex-shrink-0" style={{ width: '360px' }}>
+          {/* Step 1: questions take flex-1 (wider). Step 2: InputPanel fixed 360px */}
+          <div
+            className="bg-white rounded-3xl shadow-sm overflow-hidden"
+            style={step === 1 ? { flex: 1 } : { width: '360px', flexShrink: 0 }}
+          >
             {step === 1 ? (
               <ScreeningPanel
                 answers={screening}
@@ -175,7 +179,11 @@ export default function Home() {
             )}
           </div>
 
-          <div className="flex-1 bg-white rounded-3xl shadow-sm overflow-hidden">
+          {/* Step 1: bars fixed 260px (smaller). Step 2: results take flex-1 */}
+          <div
+            className="bg-white rounded-3xl shadow-sm overflow-hidden"
+            style={step === 1 ? { width: '260px', flexShrink: 0 } : { flex: 1 }}
+          >
             {step === 1 ? (
               <div className="p-5">
                 <VisaCompatibilityCards scores={top3} step={1} />
