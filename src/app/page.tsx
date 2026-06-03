@@ -143,7 +143,7 @@ export default function Home() {
               href="https://www.instagram.com/rodrigomaranhao.adv/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] font-semibold text-[#998a72] hover:text-[#7a6e5a] transition-colors"
+              className="text-[11px] font-semibold text-[#1A1A1A] hover:text-[#444] transition-colors"
             >
               @rodrigomaranhao.adv
             </a>
