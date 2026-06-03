@@ -137,7 +137,7 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-rm.png" alt="Rodrigo Maranhão" className="h-4 w-auto opacity-50 brightness-0 hidden sm:block" />
+          <img src="/logo-rm.png" alt="Rodrigo Maranhão" className="h-3 w-auto opacity-50 brightness-0 hidden sm:block" />
           <span className="text-xs text-[#666]">
             RMMG: <strong className="text-[#1A1A1A]">€ 920,00</strong>
           </span>
