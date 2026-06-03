@@ -51,10 +51,6 @@ export default function CompatibilityBadge({ score }: { score: number }) {
   return (
     <div className="relative rounded-2xl p-5 overflow-hidden" style={{ background: '#1A1914' }}>
       <WaveChart />
-      <p className="text-[8px] font-bold tracking-[1.8px] uppercase mb-2.5 relative z-20"
-         style={{ color: 'rgba(255,255,255,0.28)' }}>
-        Resultado em tempo real
-      </p>
       <span
         className="inline-block text-[9px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-md mb-2.5 relative z-20"
         style={{ border: '1px solid rgba(255,255,255,0.22)', color: 'rgba(255,255,255,0.72)' }}
