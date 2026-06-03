@@ -128,15 +128,20 @@ export default function Home() {
     <div className="min-h-screen flex flex-col" style={{ background: '#F2F2F2' }}>
       <header className="bg-white shadow-sm px-4 md:px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-lg">🇵🇹</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/pt-flag.png" alt="Portugal" className="h-6 w-auto" />
           <span className="text-sm md:text-base font-extrabold text-[#1A1A1A] tracking-tight">
             Calculadora de Elegibilidade PT
           </span>
           <span className="hidden sm:inline bg-[#EFEFEF] text-[#555] text-[9px] font-bold px-2 py-0.5 rounded-full">2026</span>
         </div>
-        <span className="text-xs text-[#666]">
-          RMMG: <strong className="text-[#1A1A1A]">€ 920,00</strong>
-        </span>
+        <div className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-rm.png" alt="Rodrigo Maranhão" className="h-4 w-auto opacity-50 brightness-0 hidden sm:block" />
+          <span className="text-xs text-[#666]">
+            RMMG: <strong className="text-[#1A1A1A]">€ 920,00</strong>
+          </span>
+        </div>
       </header>
 
       <StepIndicator step={step} />

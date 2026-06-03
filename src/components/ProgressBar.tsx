@@ -1,9 +1,9 @@
 import type { CriterionStatus } from '@/lib/types'
 
 const fillColor: Record<CriterionStatus, string> = {
-  pass:    'bg-[#1A1A1A]',
-  warning: 'bg-[#BBBBBB]',
-  fail:    'bg-[#BBBBBB]',
+  pass:    'bg-[#998a72]',
+  warning: 'bg-[#998a72]',
+  fail:    'bg-[#998a72]',
   waived:  'bg-[#DCDCDC]',
 }
 

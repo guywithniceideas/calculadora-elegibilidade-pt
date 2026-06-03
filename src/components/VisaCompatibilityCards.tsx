@@ -70,13 +70,13 @@ export default function VisaCompatibilityCards({ scores, step, activeVisaId }: P
         >
           <div className="flex-1">
             <p className="text-[8px] font-bold tracking-[1.5px] uppercase mb-2"
-               style={{ color: 'rgba(255,255,255,0.28)' }}>
+               style={{ color: '#998a72' }}>
               Melhor Compatibilidade
             </p>
             <p className="text-base font-extrabold text-white leading-tight mb-1.5">
               {featured.label}
             </p>
-            <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.38)' }}>
+            <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
               {featured.description}
             </p>
           </div>

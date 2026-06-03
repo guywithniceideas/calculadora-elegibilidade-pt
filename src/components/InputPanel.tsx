@@ -116,7 +116,7 @@ export default function InputPanel({
 
       {/* Savings dual input */}
       <div className="mb-2.5">
-        <label className="block text-[11px] font-semibold text-[#555] mb-1.5">
+        <label className="block text-[13px] font-semibold text-[#444] mb-1.5">
           Poupança em conta PT — preencha em uma moeda
         </label>
         <div className="grid grid-cols-2 gap-2">
