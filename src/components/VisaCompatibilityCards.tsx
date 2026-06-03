@@ -1,3 +1,5 @@
+'use client'
+import { motion } from 'framer-motion'
 import type { VisaScore, VisaTypeId } from '@/lib/types'
 
 interface Props {
@@ -6,7 +8,6 @@ interface Props {
   activeVisaId?: VisaTypeId
 }
 
-// Circular progress for the featured card — stroke in #998a72
 function CircularProgress({ score }: { score: number }) {
   const r = 32
   const circ = 2 * Math.PI * r
@@ -39,8 +40,17 @@ function CircularProgress({ score }: { score: number }) {
   )
 }
 
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+}
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] } },
+}
+
 export default function VisaCompatibilityCards({ scores, step, activeVisaId }: Props) {
-  // In step 2, the featured card is the active visa (or top score)
   const featuredId = step === 2 ? (activeVisaId ?? scores[0]?.visaId) : null
   const featured = featuredId ? scores.find(s => s.visaId === featuredId) ?? scores[0] : null
 
@@ -50,9 +60,11 @@ export default function VisaCompatibilityCards({ scores, step, activeVisaId }: P
         Compatibilidade com Vistos
       </p>
 
-      {/* Featured card with circular progress — only in step 2 */}
       {step === 2 && featured && (
-        <div
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
           className="rounded-2xl p-4 flex items-center justify-between gap-3 mb-1"
           style={{ background: '#1A1914' }}
         >
@@ -69,28 +81,35 @@ export default function VisaCompatibilityCards({ scores, step, activeVisaId }: P
             </p>
           </div>
           <CircularProgress score={featured.score} />
-        </div>
+        </motion.div>
       )}
 
-      {/* All visa cards with bars — #998a72 */}
-      {scores.map(vs => (
-        <div
-          key={vs.visaId}
-          className="bg-white rounded-2xl p-3.5 shadow-sm border border-[#E0E0E0]"
-        >
-          <div className="flex justify-between items-baseline mb-1.5">
-            <span className="text-xs font-bold text-[#1A1A1A]">{vs.label}</span>
-            <span className="text-xs font-black text-[#444]">{vs.score}%</span>
-          </div>
-          <div className="bg-[#E0E0E0] h-1.5 rounded-full overflow-hidden mb-1.5">
-            <div
-              className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${vs.score}%`, background: '#998a72' }}
-            />
-          </div>
-          <p className="text-[10px] text-[#777]">{vs.description}</p>
-        </div>
-      ))}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="flex flex-col gap-2"
+      >
+        {scores.map(vs => (
+          <motion.div
+            key={vs.visaId}
+            variants={cardVariants}
+            className="bg-white rounded-2xl p-3.5 shadow-sm border border-[#E0E0E0]"
+          >
+            <div className="flex justify-between items-baseline mb-1.5">
+              <span className="text-xs font-bold text-[#1A1A1A]">{vs.label}</span>
+              <span className="text-xs font-black text-[#444]">{vs.score}%</span>
+            </div>
+            <div className="bg-[#E0E0E0] h-1.5 rounded-full overflow-hidden mb-1.5">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{ width: `${vs.score}%`, background: '#998a72' }}
+              />
+            </div>
+            <p className="text-[10px] text-[#777]">{vs.description}</p>
+          </motion.div>
+        ))}
+      </motion.div>
     </div>
   )
 }

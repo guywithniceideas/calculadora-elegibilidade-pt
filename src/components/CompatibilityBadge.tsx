@@ -1,3 +1,6 @@
+'use client'
+import { motion } from 'framer-motion'
+
 function getLabel(score: number): string {
   if (score === 99) return 'Perfil Altamente Compatível'
   if (score >= 90) return 'Compatibilidade Alta'
@@ -49,7 +52,13 @@ function WaveChart() {
 
 export default function CompatibilityBadge({ score }: { score: number }) {
   return (
-    <div className="relative rounded-2xl p-5 overflow-hidden" style={{ background: '#1A1914' }}>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.32, ease: [0.25, 0.1, 0.25, 1] }}
+      className="relative rounded-2xl p-5 overflow-hidden"
+      style={{ background: '#1A1914' }}
+    >
       <WaveChart />
       <span
         className="inline-block text-[9px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-md mb-2.5 relative z-20"
@@ -63,6 +72,6 @@ export default function CompatibilityBadge({ score }: { score: number }) {
       <p className="text-xs mt-1.5 relative z-20" style={{ color: 'rgba(255,255,255,0.38)' }}>
         {getSub(score)}
       </p>
-    </div>
+    </motion.div>
   )
 }

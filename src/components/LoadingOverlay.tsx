@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 interface Props { onClose: () => void }
 
@@ -13,30 +14,46 @@ export default function LoadingOverlay({ onClose }: Props) {
   }, [])
 
   return (
-    <div className="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center px-4 overflow-y-auto py-8">
-
-      {/* Loading phase */}
+    <motion.div
+      className="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center px-4 overflow-y-auto py-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+    >
       {phase === 'loading' && (
-        <>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className="flex flex-col items-center"
+        >
           <div className="w-8 h-8 border-2 border-[#E0E0E0] border-t-[#1A1A1A] rounded-full animate-spin mb-4" />
           <p className="text-sm font-semibold text-[#1A1A1A] mb-1">Preparando seu relatório preliminar...</p>
           <p className="text-xs text-[#AAA]">Isso levará apenas alguns instantes</p>
-        </>
+        </motion.div>
       )}
 
-      {/* Success + upsell phase */}
       {phase !== 'loading' && (
-        <>
-          {/* Check de sucesso */}
-          <div className="w-12 h-12 rounded-full bg-[#1A1A1A] flex items-center justify-center mb-3">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+          className="flex flex-col items-center w-full"
+        >
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+            className="w-12 h-12 rounded-full bg-[#1A1A1A] flex items-center justify-center mb-3"
+          >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12" />
             </svg>
-          </div>
+          </motion.div>
           <p className="text-sm font-bold text-[#1A1A1A] mb-1">Relatório Preliminar enviado por email!</p>
           <p className="text-xs text-[#AAA] mb-8">Verifique sua caixa de entrada</p>
 
-          {/* Upsell */}
           <div className="bg-[#F2F2F2] rounded-3xl p-6 max-w-sm w-full text-center border border-[#E5E5E5]">
             <p className="text-[9px] font-black tracking-[1.5px] uppercase text-[#999] mb-3">Enquanto isso...</p>
             <p className="text-base font-extrabold text-[#1A1A1A] leading-snug mb-2">
@@ -52,22 +69,25 @@ export default function LoadingOverlay({ onClose }: Props) {
             <p className="text-[10px] text-[#999] mb-4">para quem vem pela Calculadora</p>
             <a
               href="#"
-              className="block w-full bg-[#1A1A1A] text-white py-3 rounded-2xl text-sm font-bold hover:bg-[#333] transition-colors text-center"
+              className="block w-full bg-[#1A1A1A] text-white py-3 rounded-2xl text-sm font-bold hover:bg-[#333] active:scale-[0.98] transition-all text-center"
             >
               Quero acessar por R$ 12 →
             </a>
           </div>
 
           {phase === 'closeable' && (
-            <button
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               onClick={onClose}
-              className="mt-6 text-xs text-[#888] underline hover:text-[#444]"
+              className="mt-6 text-xs text-[#888] underline hover:text-[#444] transition-colors"
             >
               Fechar e voltar à calculadora
-            </button>
+            </motion.button>
           )}
-        </>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }
