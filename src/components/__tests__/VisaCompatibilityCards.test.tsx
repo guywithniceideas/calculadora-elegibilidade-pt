@@ -24,12 +24,12 @@ describe('VisaCompatibilityCards', () => {
     expect(screen.getByText('15%')).toBeInTheDocument()
   })
 
-  it('in step 2, active visa card has border-[#1A1A1A]', () => {
-    const { container } = render(
+  it('in step 2, featured card shows "Melhor Compatibilidade" label for the active visa', () => {
+    render(
       <VisaCompatibilityCards scores={mockScores} step={2} activeVisaId="D8" />
     )
-    const cards = container.querySelectorAll('.border-\\[\\#1A1A1A\\]')
-    expect(cards.length).toBe(1)
+    // The new design shows a dark featured card with this heading for the active visa in step 2
+    expect(screen.getByText('Melhor Compatibilidade')).toBeInTheDocument()
   })
 
   it('renders description', () => {

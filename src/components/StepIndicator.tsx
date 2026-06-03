@@ -16,7 +16,7 @@ export default function StepIndicator({ step }: Props) {
         </span>
       </div>
 
-      <div className={`h-px w-10 ${step === 2 ? 'bg-[#1A1A1A]' : 'bg-[#CCC]'}`} />
+      <div className={`h-px w-10 ${step === 2 ? 'bg-[#998a72]' : 'bg-[#CCC]'}`} />
 
       <div className="flex items-center gap-2">
         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
