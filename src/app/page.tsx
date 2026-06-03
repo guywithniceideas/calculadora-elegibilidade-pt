@@ -81,12 +81,12 @@ export default function Home() {
   function handleProceedToStep2() {
     const sorted = scoreVisas(screening)
     const topVisaId = sorted[0]?.visaId ?? 'D7'
-    // D1 and D4 are now valid VisaType values — use directly
     const validTypes: VisaType[] = ['D7', 'D8', 'D2', 'D1', 'D4']
     const topVisa = validTypes.includes(topVisaId as VisaType) ? (topVisaId as VisaType) : 'D7'
     const family = familyFromFamilia(screening.familia)
     setInput(prev => ({ ...prev, visaType: topVisa, family }))
     setStep(2)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   function handleBackToStep1() {
