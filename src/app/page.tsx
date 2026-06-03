@@ -255,7 +255,7 @@ export default function Home() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/vm-logo.png" alt="Vilanova Maranhão Advogados" className="h-5 opacity-40" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-rm.png" alt="Logo" className="h-5 opacity-40" />
+          <img src="/logo-rm.png" alt="Logo" className="h-3 opacity-40 brightness-0" />
         </div>
       </footer>
 
