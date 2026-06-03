@@ -249,8 +249,10 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="text-center text-[10px] font-medium text-[#AAA] pb-4 px-4">
-        Baseado no Decreto-Lei n.º 139/2025 e Portaria n.º 1563/2007 · Documento informativo, não substitui consultoria jurídica
+      <footer className="text-center text-[10px] font-medium text-[#AAA] pb-5 px-4 flex flex-col items-center gap-3">
+        <span>Baseado no Decreto-Lei n.º 139/2025 e Portaria n.º 1563/2007 · Documento informativo, não substitui consultoria jurídica</span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/vm-logo.png" alt="Vilanova Maranhão Advogados" className="h-5 opacity-30 grayscale" />
       </footer>
 
       {showEmailModal && (
