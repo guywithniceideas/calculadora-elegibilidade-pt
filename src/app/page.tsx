@@ -115,7 +115,7 @@ export default function Home() {
   const topVisaScore = top3[0]?.score ?? 0
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: '#EDEBE7' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: '#F2F2F2' }}>
       <header className="bg-white shadow-sm px-4 md:px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-lg">🇵🇹</span>
