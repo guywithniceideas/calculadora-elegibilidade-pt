@@ -29,52 +29,9 @@ button:not(:disabled),
   }
 }
 
-/* ── CTA button animations — subtle & elegant ── */
-
-/* Shimmer: narrow 20% beam, very low opacity, no skew, slow 4s cycle */
-@keyframes shimmer-rtl {
-  0%   { transform: translateX(120%); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { transform: translateX(-120%); opacity: 0; }
-}
-
-/* Neon: soft halo only, max spread 14px, opacidade 0.15→0.32 */
-@keyframes neon-pulse {
-  0%, 100% {
-    box-shadow:
-      0 0 6px rgba(153,138,114,0.15),
-      0 0 14px rgba(153,138,114,0.08);
-  }
-  50% {
-    box-shadow:
-      0 0 10px rgba(153,138,114,0.32),
-      0 0 22px rgba(153,138,114,0.14);
-  }
-}
-
 .btn-cta {
-  position: relative;
-  overflow: hidden;
   background: #998a72;
   color: #FFFFFF;
-  animation: neon-pulse 3.5s ease-in-out infinite;
-}
-
-.btn-cta::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 20%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,0.12) 50%,
-    transparent 100%
-  );
-  animation: shimmer-rtl 4s ease-in-out infinite;
-  animation-delay: 1.2s;
 }
 
 .btn-cta:hover {
