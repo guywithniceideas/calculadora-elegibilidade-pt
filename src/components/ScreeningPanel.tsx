@@ -57,7 +57,7 @@ function ChipGroup<T extends string>({
           className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
             selected === opt.value
               ? 'bg-[#1A1A1A] text-white'
-              : 'bg-[#F4F2EE] text-[#555] border border-dashed border-[#CCC] hover:border-[#999] hover:text-[#1A1A1A]'
+              : 'bg-[#EFEFEF] text-[#555] border border-dashed border-[#CCC] hover:border-[#999] hover:text-[#1A1A1A]'
           }`}
         >
           {opt.label}
@@ -82,7 +82,7 @@ export default function ScreeningPanel({ answers, onChange, onNext }: Props) {
         onSelect={v => set({ objetivo: v })}
       />
 
-      <div className="h-px bg-[#E8E5E0] mb-5" />
+      <div className="h-px bg-[#E0E0E0] mb-5" />
 
       <Question>Qual sua situação profissional?</Question>
       <ChipGroup
@@ -91,7 +91,7 @@ export default function ScreeningPanel({ answers, onChange, onNext }: Props) {
         onSelect={v => set({ situacao: v })}
       />
 
-      <div className="h-px bg-[#E8E5E0] mb-5" />
+      <div className="h-px bg-[#E0E0E0] mb-5" />
 
       <Question>Quem vem com você?</Question>
       <ChipGroup
@@ -107,7 +107,7 @@ export default function ScreeningPanel({ answers, onChange, onNext }: Props) {
           className={`w-full py-3 rounded-2xl text-sm font-bold transition-colors ${
             allAnswered
               ? 'bg-[#1A1A1A] text-white hover:bg-[#333]'
-              : 'bg-[#E8E5E0] text-[#AAA] cursor-not-allowed'
+              : 'bg-[#E0E0E0] text-[#AAA] cursor-not-allowed'
           }`}
         >
           Próxima Etapa →

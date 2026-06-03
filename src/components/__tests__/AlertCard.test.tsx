@@ -10,10 +10,10 @@ describe('AlertCard', () => {
   })
   it('applies warning border for warning type', () => {
     const { container } = render(<AlertCard type="warning" title="T" message="M" />)
-    expect(container.firstChild).toHaveClass('border-[#E0DDD8]')
+    expect(container.firstChild).toHaveClass('border-[#DCDCDC]')
   })
   it('applies red border for error type', () => {
     const { container } = render(<AlertCard type="error" title="T" message="M" />)
-    expect(container.firstChild).toHaveClass('border-[#D8D4CE]')
+    expect(container.firstChild).toHaveClass('border-[#D4D4D4]')
   })
 })

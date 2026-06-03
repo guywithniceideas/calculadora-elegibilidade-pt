@@ -18,7 +18,7 @@ export default function LoadingOverlay({ onClose }: Props) {
       {/* Loading phase */}
       {phase === 'loading' && (
         <>
-          <div className="w-8 h-8 border-2 border-[#E8E5E0] border-t-[#1A1A1A] rounded-full animate-spin mb-4" />
+          <div className="w-8 h-8 border-2 border-[#E0E0E0] border-t-[#1A1A1A] rounded-full animate-spin mb-4" />
           <p className="text-sm font-semibold text-[#1A1A1A] mb-1">Preparando seu relatório preliminar...</p>
           <p className="text-xs text-[#AAA]">Isso levará apenas alguns instantes</p>
         </>

@@ -24,7 +24,7 @@ export default function VisaTypeTabs({ active, onChange }: Props) {
           className={`flex-1 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-150 ${
             active === tab.id
               ? 'bg-[#1A1A1A] text-white'
-              : 'bg-transparent text-[#666] hover:bg-[#F4F2EE] hover:text-[#1A1A1A]'
+              : 'bg-transparent text-[#666] hover:bg-[#EFEFEF] hover:text-[#1A1A1A]'
           }`}
         >
           <span className="font-bold">{tab.label}</span>

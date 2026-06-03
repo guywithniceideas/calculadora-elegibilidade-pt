@@ -48,7 +48,7 @@ export default function EmailModal({ onConfirm, onClose }: Props) {
             onChange={e => setName(e.target.value)}
             onBlur={() => setTouched(t => ({ ...t, name: true }))}
             placeholder="Nome Sobrenome"
-            className={`w-full bg-[#F4F2EE] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 ${nameError ? 'ring-2 ring-red-300' : ''}`}
+            className={`w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 ${nameError ? 'ring-2 ring-red-300' : ''}`}
           />
           {nameError && <p className="text-[10px] text-red-500 mt-1">Nome obrigatório</p>}
         </div>
@@ -61,7 +61,7 @@ export default function EmailModal({ onConfirm, onClose }: Props) {
             onChange={e => setEmail(e.target.value)}
             onBlur={() => setTouched(t => ({ ...t, email: true }))}
             placeholder="seu@email.com"
-            className={`w-full bg-[#F4F2EE] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 ${emailError ? 'ring-2 ring-red-300' : ''}`}
+            className={`w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 ${emailError ? 'ring-2 ring-red-300' : ''}`}
           />
           {emailError && <p className="text-[10px] text-red-500 mt-1">Email inválido</p>}
         </div>

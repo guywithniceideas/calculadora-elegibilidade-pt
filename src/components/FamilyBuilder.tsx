@@ -30,7 +30,7 @@ function AddChip({ label, onClick }: { label: string; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#F4F2EE] text-[#555] border border-dashed border-[#CCC] hover:border-[#999] hover:text-[#1A1A1A] transition-colors"
+      className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#EFEFEF] text-[#555] border border-dashed border-[#CCC] hover:border-[#999] hover:text-[#1A1A1A] transition-colors"
     >
       {label}
     </button>

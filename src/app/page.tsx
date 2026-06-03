@@ -122,7 +122,7 @@ export default function Home() {
           <span className="text-sm md:text-base font-extrabold text-[#1A1A1A] tracking-tight">
             Calculadora de Elegibilidade PT
           </span>
-          <span className="hidden sm:inline bg-[#F0EFED] text-[#555] text-[9px] font-bold px-2 py-0.5 rounded-full">2026</span>
+          <span className="hidden sm:inline bg-[#EFEFEF] text-[#555] text-[9px] font-bold px-2 py-0.5 rounded-full">2026</span>
         </div>
         <span className="text-xs text-[#666]">
           RMMG: <strong className="text-[#1A1A1A]">€ 920,00</strong>
@@ -141,7 +141,7 @@ export default function Home() {
         {step === 2 && (
           <button
             onClick={handleBackToStep1}
-            className="inline-flex items-center gap-2 mb-3 px-4 py-2 rounded-xl bg-white border border-[#E8E5E0] shadow-sm text-xs font-semibold text-[#444] hover:bg-[#F4F2EE] hover:border-[#1A1A1A] hover:text-[#1A1A1A] transition-colors"
+            className="inline-flex items-center gap-2 mb-3 px-4 py-2 rounded-xl bg-white border border-[#E0E0E0] shadow-sm text-xs font-semibold text-[#444] hover:bg-[#EFEFEF] hover:border-[#1A1A1A] hover:text-[#1A1A1A] transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />

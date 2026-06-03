@@ -76,13 +76,13 @@ export default function VisaCompatibilityCards({ scores, step, activeVisaId }: P
       {scores.map(vs => (
         <div
           key={vs.visaId}
-          className="bg-white rounded-2xl p-3.5 shadow-sm border border-[#E8E5E0]"
+          className="bg-white rounded-2xl p-3.5 shadow-sm border border-[#E0E0E0]"
         >
           <div className="flex justify-between items-baseline mb-1.5">
             <span className="text-xs font-bold text-[#1A1A1A]">{vs.label}</span>
             <span className="text-xs font-black text-[#444]">{vs.score}%</span>
           </div>
-          <div className="bg-[#E8E5E0] h-1.5 rounded-full overflow-hidden mb-1.5">
+          <div className="bg-[#E0E0E0] h-1.5 rounded-full overflow-hidden mb-1.5">
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{ width: `${vs.score}%`, background: '#998a72' }}

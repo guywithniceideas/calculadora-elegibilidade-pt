@@ -2,9 +2,9 @@ import type { CriterionStatus } from '@/lib/types'
 
 const fillColor: Record<CriterionStatus, string> = {
   pass:    'bg-[#1A1A1A]',
-  warning: 'bg-[#BBBBB8]',
-  fail:    'bg-[#BBBBB8]',
-  waived:  'bg-[#DEDBD6]',
+  warning: 'bg-[#BBBBBB]',
+  fail:    'bg-[#BBBBBB]',
+  waived:  'bg-[#DCDCDC]',
 }
 
 const pctColor: Record<CriterionStatus, string> = {
@@ -34,7 +34,7 @@ export default function ProgressBar({ label, sublabel, percent, status }: Props)
           {status === 'waived' ? 'Dispensado' : `${percent}%`}
         </span>
       </div>
-      <div className="bg-[#E8E5E0] h-1.5 rounded-full overflow-hidden">
+      <div className="bg-[#E0E0E0] h-1.5 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-300 ${fillColor[status]}`}
           style={{ width: `${displayPct}%` }}

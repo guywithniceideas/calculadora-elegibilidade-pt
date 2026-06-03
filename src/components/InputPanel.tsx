@@ -30,7 +30,7 @@ function Toggle({
     <button
       aria-label={label}
       onClick={onToggle}
-      className="w-full flex items-center justify-between bg-[#F4F2EE] rounded-xl px-3 py-2.5 mb-1.5 text-left"
+      className="w-full flex items-center justify-between bg-[#EFEFEF] rounded-xl px-3 py-2.5 mb-1.5 text-left"
     >
       <div>
         <p className="text-xs font-semibold text-[#1A1A1A]">{label}</p>
@@ -54,7 +54,7 @@ function NumericInput({ id, label, value, onChange }: { id: string; label: strin
         value={value || ''}
         onChange={e => onChange(parseFloat(e.target.value) || 0)}
         placeholder="0,00"
-        className="w-full bg-[#F4F2EE] rounded-xl px-3 py-2.5 text-[#1A1A1A] text-sm font-semibold placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
+        className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-[#1A1A1A] text-sm font-semibold placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
       />
     </div>
   )
@@ -82,7 +82,7 @@ export default function InputPanel({
       <SectionLabel>Dados Financeiros</SectionLabel>
 
       {/* Income block: user types BRL, sees EUR conversion */}
-      <div className="bg-[#F4F2EE] rounded-2xl p-3.5 mb-2.5">
+      <div className="bg-[#EFEFEF] rounded-2xl p-3.5 mb-2.5">
         <p className="text-[11px] font-semibold text-[#555] mb-2">Renda mensal comprovável</p>
         {/* BRL input row */}
         <div className="flex items-center gap-2 mb-2">
@@ -97,7 +97,7 @@ export default function InputPanel({
             className="flex-1 bg-transparent text-[#1A1A1A] text-lg font-black placeholder:text-[#CCC] outline-none"
           />
         </div>
-        <div className="h-px bg-[#E2DFDA] mb-2" />
+        <div className="h-px bg-[#E0E0E0] mb-2" />
         {/* EUR conversion row */}
         <div className="flex items-center gap-2">
           <span className="text-sm">🇪🇺</span>
@@ -121,7 +121,7 @@ export default function InputPanel({
         </label>
         <div className="grid grid-cols-2 gap-2">
           {/* BRL savings */}
-          <div className={`bg-[#F4F2EE] rounded-xl p-3 transition-opacity ${savingsCurrency === 'EUR' ? 'opacity-40 pointer-events-none' : ''}`}>
+          <div className={`bg-[#EFEFEF] rounded-xl p-3 transition-opacity ${savingsCurrency === 'EUR' ? 'opacity-40 pointer-events-none' : ''}`}>
             <div className="flex items-center gap-1.5 mb-1.5">
               <span className="text-xs">🇧🇷</span>
               <span className="text-[10px] font-black text-[#444]">BRL</span>
@@ -142,7 +142,7 @@ export default function InputPanel({
             )}
           </div>
           {/* EUR savings */}
-          <div className={`bg-[#F4F2EE] rounded-xl p-3 transition-opacity ${savingsCurrency === 'BRL' ? 'opacity-40 pointer-events-none' : ''}`}>
+          <div className={`bg-[#EFEFEF] rounded-xl p-3 transition-opacity ${savingsCurrency === 'BRL' ? 'opacity-40 pointer-events-none' : ''}`}>
             <div className="flex items-center gap-1.5 mb-1.5">
               <span className="text-xs">🇪🇺</span>
               <span className="text-[10px] font-black text-[#444]">EUR</span>
@@ -174,7 +174,7 @@ export default function InputPanel({
         />
       )}
 
-      <div className="h-px bg-[#E8E5E0] my-3.5" />
+      <div className="h-px bg-[#E0E0E0] my-3.5" />
       <SectionLabel>Agregado Familiar</SectionLabel>
       <FamilyBuilder family={input.family} onChange={family => set({ family })} />
 
