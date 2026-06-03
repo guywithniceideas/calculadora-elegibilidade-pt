@@ -7,8 +7,8 @@ interface Props {
 }
 
 function barColor(score: number): string {
-  if (score >= 75) return 'bg-[#12e80e]'
-  if (score >= 40) return 'bg-[#e6c143]'
+  if (score >= 75) return 'bg-[#2E7D50]'
+  if (score >= 40) return 'bg-[#9A8130]'
   return 'bg-[#8B2E2E]'
 }
 
