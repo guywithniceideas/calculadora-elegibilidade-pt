@@ -37,7 +37,7 @@ export default function LoadingOverlay({ onClose }: Props) {
           <p className="text-xs text-[#AAA] mb-8">Verifique sua caixa de entrada</p>
 
           {/* Upsell */}
-          <div className="bg-[#F4F2EE] rounded-3xl p-6 max-w-sm w-full text-center border border-[#E8E5E0]">
+          <div className="bg-[#F2F2F2] rounded-3xl p-6 max-w-sm w-full text-center border border-[#E5E5E5]">
             <p className="text-[9px] font-black tracking-[1.5px] uppercase text-[#999] mb-3">Enquanto isso...</p>
             <p className="text-base font-extrabold text-[#1A1A1A] leading-snug mb-2">
               Se você quer saber quanto vai gastar mensalmente morando em Portugal
