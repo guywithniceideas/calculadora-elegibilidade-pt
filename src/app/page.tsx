@@ -274,9 +274,6 @@ export default function Home() {
                       onSavingsEURChange={handleSavingsEURChange}
                     />
                   </div>
-                  <div className="bg-white rounded-3xl shadow-sm p-5">
-                    <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
-                  </div>
                   <div className="bg-white rounded-3xl shadow-sm">
                     <ResultPanel
                       result={result}
@@ -284,6 +281,9 @@ export default function Home() {
                       topVisaScore={topVisaScore}
                       onRequestReport={handleRequestReport}
                     />
+                  </div>
+                  <div className="bg-white rounded-3xl shadow-sm p-5">
+                    <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
                   </div>
                 </>
               )}
