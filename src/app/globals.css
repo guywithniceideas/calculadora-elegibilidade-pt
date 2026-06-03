@@ -28,3 +28,52 @@ button:not(:disabled),
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── CTA button animations ── */
+@keyframes shimmer-rtl {
+  0%   { transform: translateX(150%) skewX(-20deg); }
+  100% { transform: translateX(-150%) skewX(-20deg); }
+}
+
+@keyframes neon-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 8px rgba(153,138,114,0.6),
+      0 0 18px rgba(153,138,114,0.35),
+      0 0 32px rgba(153,138,114,0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(153,138,114,0.9),
+      0 0 30px rgba(153,138,114,0.6),
+      0 0 55px rgba(153,138,114,0.35),
+      0 0 80px rgba(153,138,114,0.15);
+  }
+}
+
+.btn-cta {
+  position: relative;
+  overflow: hidden;
+  background: #998a72;
+  color: #FFFFFF;
+  animation: neon-pulse 2.4s ease-in-out infinite;
+}
+
+.btn-cta::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.35) 50%,
+    transparent 100%
+  );
+  animation: shimmer-rtl 2.4s ease-in-out infinite;
+}
+
+.btn-cta:hover {
+  background: #8a7b65;
+}

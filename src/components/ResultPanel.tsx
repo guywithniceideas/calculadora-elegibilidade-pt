@@ -60,7 +60,7 @@ export default function ResultPanel({ result, input, topVisaScore, onRequestRepo
       <div className="mt-auto">
         <button
           onClick={onRequestReport}
-          className="w-full bg-[#1A1A1A] hover:bg-[#333] text-white py-3 rounded-2xl text-sm font-bold transition-colors"
+          className="btn-cta w-full py-3 rounded-2xl text-sm font-bold"
         >
           Receber Relatório Preliminar em PDF (Para mandar para Assessoria Jurídica)
         </button>
