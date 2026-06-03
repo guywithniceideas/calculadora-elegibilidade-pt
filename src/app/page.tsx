@@ -136,8 +136,18 @@ export default function Home() {
           <span className="hidden sm:inline bg-[#EFEFEF] text-[#555] text-[9px] font-bold px-2 py-0.5 rounded-full">2026</span>
         </div>
         <div className="flex items-center gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-rm.png" alt="Rodrigo Maranhão" className="h-3 w-auto opacity-50 brightness-0 hidden sm:block" />
+          <div className="hidden sm:flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-rm.png" alt="Rodrigo Maranhão" className="h-3 w-auto opacity-50 brightness-0" />
+            <a
+              href="https://www.instagram.com/rodrigomaranhao.adv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] font-semibold text-[#998a72] hover:text-[#7a6e5a] transition-colors"
+            >
+              @rodrigomaranhao.adv
+            </a>
+          </div>
           <span className="text-xs text-[#666]">
             RMMG: <strong className="text-[#1A1A1A]">€ 920,00</strong>
           </span>
