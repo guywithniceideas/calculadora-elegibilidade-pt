@@ -11,7 +11,7 @@ import ResultPanel from '@/components/ResultPanel'
 import ScreeningPanel from '@/components/ScreeningPanel'
 import VisaCompatibilityCards from '@/components/VisaCompatibilityCards'
 import StepIndicator from '@/components/StepIndicator'
-import EmailModal from '@/components/EmailModal'
+import EmailVerificationGate from '@/components/EmailVerificationGate'
 import LoadingOverlay from '@/components/LoadingOverlay'
 
 const initialInput: CalculatorInput = {
@@ -42,11 +42,24 @@ export default function Home() {
   const [savingsBRL, setSavingsBRL] = useState(0)
   const [savingsEUR, setSavingsEUR] = useState(0)
   const [savingsCurrency, setSavingsCurrency] = useState<'BRL' | 'EUR' | null>(null)
-  const [showEmailModal, setShowEmailModal] = useState(false)
   const [showLoading, setShowLoading] = useState(false)
+  const [authState, setAuthState] = useState<'loading' | 'unauthenticated' | 'authenticated'>('loading')
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
 
   useEffect(() => {
     fetchEurToBrlRate().then(r => setExchangeRate(r.rate))
+  }, [])
+
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(({ name, email }: { name: string; email: string }) => {
+        setUserName(name)
+        setUserEmail(email)
+        setAuthState('authenticated')
+      })
+      .catch(() => setAuthState('unauthenticated'))
   }, [])
 
   function handleIncomeBRLChange(brl: number) {
@@ -104,11 +117,6 @@ export default function Home() {
   }
 
   function handleRequestReport() {
-    setShowEmailModal(true)
-  }
-
-  function handleEmailConfirm(_name: string, _email: string) {
-    setShowEmailModal(false)
     setShowLoading(true)
   }
 
@@ -123,6 +131,26 @@ export default function Home() {
     : rawScores
   const top3 = getTop3Visas(scoredVisas)
   const topVisaScore = top3[0]?.score ?? 0
+
+  if (authState === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#F2F2F2' }}>
+        <div className="w-8 h-8 border-2 border-[#E0E0E0] border-t-[#1A1A1A] rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (authState === 'unauthenticated') {
+    return (
+      <EmailVerificationGate
+        onVerified={(name, email) => {
+          setUserName(name)
+          setUserEmail(email)
+          setAuthState('authenticated')
+        }}
+      />
+    )
+  }
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#F2F2F2' }}>
@@ -302,14 +330,6 @@ export default function Home() {
         </div>
       </footer>
 
-      <AnimatePresence>
-        {showEmailModal && (
-          <EmailModal
-            onConfirm={handleEmailConfirm}
-            onClose={() => setShowEmailModal(false)}
-          />
-        )}
-      </AnimatePresence>
       <AnimatePresence>
         {showLoading && <LoadingOverlay onClose={handleLoadingClose} />}
       </AnimatePresence>
