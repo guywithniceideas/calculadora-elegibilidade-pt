@@ -7,7 +7,7 @@ interface Props {
 
 const ERROR_MESSAGES: Record<string, string> = {
   name_required: 'Informe seu nome.',
-  invalid_username: 'Usuário deve ter de 3 a 32 caracteres (letras, números, "_", "." ou "-").',
+  invalid_username: 'Informe um usuário.',
   invalid_password: 'A senha precisa ter pelo menos 6 caracteres.',
   username_taken: 'Esse usuário já existe. Tente outro ou faça login.',
   invalid_credentials: 'Usuário ou senha incorretos.',

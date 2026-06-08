@@ -19,7 +19,8 @@ export function userKey(username: string): string {
 }
 
 export function isValidUsername(username: string): boolean {
-  return /^[a-z0-9_.-]{3,32}$/.test(username)
+  const trimmed = username.trim()
+  return trimmed.length >= 1 && trimmed.length <= 64
 }
 
 export async function createSessionToken(name: string, username: string): Promise<string> {
