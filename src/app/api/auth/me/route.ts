@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
-
-function getSecret() {
-  return new TextEncoder().encode(process.env.AUTH_SECRET)
-}
+import { getAuthSecret } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
   try {
@@ -11,8 +8,8 @@ export async function GET(req: NextRequest) {
     if (!sessionToken) {
       return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
     }
-    const { payload } = await jwtVerify(sessionToken, getSecret())
-    return NextResponse.json({ name: payload.name, email: payload.email })
+    const { payload } = await jwtVerify(sessionToken, getAuthSecret())
+    return NextResponse.json({ name: payload.name, username: payload.username })
   } catch {
     return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
   }

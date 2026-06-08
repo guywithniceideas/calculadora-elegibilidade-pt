@@ -11,7 +11,7 @@ import ResultPanel from '@/components/ResultPanel'
 import ScreeningPanel from '@/components/ScreeningPanel'
 import VisaCompatibilityCards from '@/components/VisaCompatibilityCards'
 import StepIndicator from '@/components/StepIndicator'
-import EmailVerificationGate from '@/components/EmailVerificationGate'
+import AuthGate from '@/components/AuthGate'
 import LoadingOverlay from '@/components/LoadingOverlay'
 
 const initialInput: CalculatorInput = {
@@ -45,7 +45,7 @@ export default function Home() {
   const [showLoading, setShowLoading] = useState(false)
   const [authState, setAuthState] = useState<'loading' | 'unauthenticated' | 'authenticated'>('loading')
   const [userName, setUserName] = useState('')
-  const [userEmail, setUserEmail] = useState('')
+  const [userUsername, setUserUsername] = useState('')
 
   useEffect(() => {
     fetchEurToBrlRate().then(r => setExchangeRate(r.rate))
@@ -54,9 +54,9 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/auth/me')
       .then(r => r.ok ? r.json() : Promise.reject())
-      .then(({ name, email }: { name: string; email: string }) => {
+      .then(({ name, username }: { name: string; username: string }) => {
         setUserName(name)
-        setUserEmail(email)
+        setUserUsername(username)
         setAuthState('authenticated')
       })
       .catch(() => setAuthState('unauthenticated'))
@@ -142,10 +142,10 @@ export default function Home() {
 
   if (authState === 'unauthenticated') {
     return (
-      <EmailVerificationGate
-        onVerified={(name, email) => {
+      <AuthGate
+        onAuthenticated={(name, username) => {
           setUserName(name)
-          setUserEmail(email)
+          setUserUsername(username)
           setAuthState('authenticated')
         }}
       />
