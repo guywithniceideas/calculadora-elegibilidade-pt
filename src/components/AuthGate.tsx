@@ -7,10 +7,10 @@ interface Props {
 
 const ERROR_MESSAGES: Record<string, string> = {
   name_required: 'Informe seu nome.',
-  invalid_username: 'Informe um usuário.',
+  invalid_username: 'Informe seu email.',
   invalid_password: 'A senha precisa ter pelo menos 6 caracteres.',
-  username_taken: 'Esse usuário já existe. Tente outro ou faça login.',
-  invalid_credentials: 'Usuário ou senha incorretos.',
+  username_taken: 'Esse email já está cadastrado. Faça login.',
+  invalid_credentials: 'Email ou senha incorretos.',
   server_error: 'Erro no servidor. Tente novamente.',
 }
 
@@ -42,7 +42,7 @@ export default function AuthGate({ onAuthenticated }: Props) {
       return
     }
     if (!username.trim() || !password) {
-      setError(mode === 'login' ? errorMessage('invalid_credentials') : 'Preencha usuário e senha.')
+      setError(mode === 'login' ? errorMessage('invalid_credentials') : 'Preencha email e senha.')
       return
     }
 
@@ -112,8 +112,8 @@ export default function AuthGate({ onAuthenticated }: Props) {
           </h2>
           <p className="text-xs text-[#777] mb-5">
             {mode === 'login'
-              ? 'Entre com seu usuário e senha.'
-              : 'Escolha um usuário e uma senha para acessar a calculadora.'}
+              ? 'Entre com seu email e senha.'
+              : 'Use seu email e escolha uma senha para acessar a calculadora.'}
           </p>
 
           {mode === 'register' && (
@@ -134,14 +134,14 @@ export default function AuthGate({ onAuthenticated }: Props) {
 
           <div className="mb-3">
             <label className="block text-[11px] font-semibold text-[#555] mb-1.5">
-              Usuário
+              Email
             </label>
             <input
-              type="text"
+              type="email"
               value={username}
               onChange={e => setUsername(e.target.value)}
-              placeholder="seu_usuario"
-              autoComplete="username"
+              placeholder="seu@email.com"
+              autoComplete="email"
               className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
             />
           </div>
