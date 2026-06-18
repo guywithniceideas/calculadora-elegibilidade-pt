@@ -58,7 +58,7 @@ export default function PdfDocument({ input, result, generatedAt }: Props) {
         {/* Cabeçalho */}
         <View style={s.header}>
           <Text style={s.title}>Relatório de Elegibilidade Migratória</Text>
-          <Text style={s.subtitle}>ElegiPortugal · Gerado em {generatedAt} · Baseado na RMMG 2026 (€920)</Text>
+          <Text style={s.subtitle}>Calculadora de Elegibilidade PT · Gerado em {generatedAt} · Baseado na RMMG 2026 (€920)</Text>
         </View>
 
         {/* Resultado geral */}
@@ -128,7 +128,8 @@ export default function PdfDocument({ input, result, generatedAt }: Props) {
 
         {/* Rodapé */}
         <View style={s.footer}>
-          <Text>Baseado na RMMG 2026 (Decreto-Lei n.º 139/2025) e Portaria n.º 1563/2007 · Este documento é informativo e não substitui consultoria jurídica especializada.</Text>
+          <Text>Baseado na RMMG 2026 (Decreto-Lei n.º 139/2025) e Portaria n.º 1563/2007 · Documento informativo, não substitui consultoria jurídica especializada.</Text>
+          <Text style={{ marginTop: 4 }}>Vilanova Maranhão Advogados · @rodrigomaranhao.adv · Dúvidas? Fale connosco no WhatsApp: +351 937 186 286</Text>
         </View>
       </Page>
     </Document>

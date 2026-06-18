@@ -12,7 +12,7 @@ import ScreeningPanel from '@/components/ScreeningPanel'
 import VisaCompatibilityCards from '@/components/VisaCompatibilityCards'
 import StepIndicator from '@/components/StepIndicator'
 import AuthGate from '@/components/AuthGate'
-import LoadingOverlay from '@/components/LoadingOverlay'
+import ConsultancyPage from '@/components/ConsultancyPage'
 
 const initialInput: CalculatorInput = {
   visaType: 'D7',
@@ -42,7 +42,6 @@ export default function Home() {
   const [savingsBRL, setSavingsBRL] = useState(0)
   const [savingsEUR, setSavingsEUR] = useState(0)
   const [savingsCurrency, setSavingsCurrency] = useState<'BRL' | 'EUR' | null>(null)
-  const [showLoading, setShowLoading] = useState(false)
   const [authState, setAuthState] = useState<'loading' | 'unauthenticated' | 'authenticated'>('loading')
   const [userName, setUserName] = useState('')
   const [userUsername, setUserUsername] = useState('')
@@ -117,11 +116,15 @@ export default function Home() {
   }
 
   function handleRequestReport() {
-    setShowLoading(true)
+    setStepDirection(1)
+    fetch('/api/leads', { method: 'POST' }).catch(() => {})
+    setStep(3)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  function handleLoadingClose() {
-    setShowLoading(false)
+  function handleBackToStep2() {
+    setStepDirection(-1)
+    setStep(2)
   }
 
   const result = calculate(input)
@@ -221,101 +224,114 @@ export default function Home() {
               </button>
             )}
 
-            {/* Desktop */}
-            <div className="hidden md:flex gap-3 h-full">
-              <div
-                className="bg-white rounded-3xl shadow-sm overflow-hidden"
-                style={step === 1 ? { flex: 1 } : { width: '360px', flexShrink: 0 }}
-              >
-                {step === 1 ? (
-                  <ScreeningPanel
-                    answers={screening}
-                    onChange={setScreening}
-                    onNext={handleProceedToStep2}
-                  />
-                ) : (
-                  <InputPanel
-                    input={input}
-                    onChange={handleChange}
-                    exchangeRate={exchangeRate}
-                    incomeBRL={incomeBRL}
-                    onIncomeBRLChange={handleIncomeBRLChange}
-                    savingsBRL={savingsBRL}
-                    savingsEUR={savingsEUR}
-                    savingsCurrency={savingsCurrency}
-                    onSavingsBRLChange={handleSavingsBRLChange}
-                    onSavingsEURChange={handleSavingsEURChange}
-                  />
-                )}
-              </div>
+            {/* Step 3 — Página de Finalização / Consultoria */}
+            {step === 3 && (
+              <ConsultancyPage
+                input={input}
+                result={result}
+                onBack={handleBackToStep2}
+              />
+            )}
 
-              <div
-                className="bg-white rounded-3xl shadow-sm overflow-hidden"
-                style={step === 1 ? { width: '260px', flexShrink: 0 } : { flex: 1 }}
-              >
-                {step === 1 ? (
-                  <div className="p-5">
-                    <VisaCompatibilityCards scores={top3} step={1} />
+            {step !== 3 && (
+              <>
+                {/* Desktop — steps 1 e 2 */}
+                <div className="hidden md:flex gap-3 h-full">
+                  <div
+                    className="bg-white rounded-3xl shadow-sm overflow-hidden"
+                    style={step === 1 ? { flex: 1 } : { width: '360px', flexShrink: 0 }}
+                  >
+                    {step === 1 ? (
+                      <ScreeningPanel
+                        answers={screening}
+                        onChange={setScreening}
+                        onNext={handleProceedToStep2}
+                      />
+                    ) : (
+                      <InputPanel
+                        input={input}
+                        onChange={handleChange}
+                        exchangeRate={exchangeRate}
+                        incomeBRL={incomeBRL}
+                        onIncomeBRLChange={handleIncomeBRLChange}
+                        savingsBRL={savingsBRL}
+                        savingsEUR={savingsEUR}
+                        savingsCurrency={savingsCurrency}
+                        onSavingsBRLChange={handleSavingsBRLChange}
+                        onSavingsEURChange={handleSavingsEURChange}
+                      />
+                    )}
                   </div>
-                ) : (
-                  <div className="h-full overflow-y-auto p-5 flex flex-col gap-4">
-                    <ResultPanel
-                      result={result}
-                      input={input}
-                      topVisaScore={topVisaScore}
-                      onRequestReport={handleRequestReport}
-                    />
-                    <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
-                  </div>
-                )}
-              </div>
-            </div>
 
-            {/* Mobile */}
-            <div className="md:hidden flex flex-col gap-3">
-              {step === 1 ? (
-                <>
-                  <div className="bg-white rounded-3xl shadow-sm">
-                    <ScreeningPanel
-                      answers={screening}
-                      onChange={setScreening}
-                      onNext={handleProceedToStep2}
-                    />
+                  <div
+                    className="bg-white rounded-3xl shadow-sm overflow-hidden"
+                    style={step === 1 ? { width: '260px', flexShrink: 0 } : { flex: 1 }}
+                  >
+                    {step === 1 ? (
+                      <div className="p-5">
+                        <VisaCompatibilityCards scores={top3} step={1} />
+                      </div>
+                    ) : (
+                      <div className="h-full overflow-y-auto p-5 flex flex-col gap-4">
+                        <ResultPanel
+                          result={result}
+                          input={input}
+                          topVisaScore={topVisaScore}
+                          onRequestReport={handleRequestReport}
+                        />
+                        <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
+                      </div>
+                    )}
                   </div>
-                  <div className="bg-white rounded-3xl shadow-sm p-5">
-                    <VisaCompatibilityCards scores={top3} step={1} />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="bg-white rounded-3xl shadow-sm">
-                    <InputPanel
-                      input={input}
-                      onChange={handleChange}
-                      exchangeRate={exchangeRate}
-                      incomeBRL={incomeBRL}
-                      onIncomeBRLChange={handleIncomeBRLChange}
-                      savingsBRL={savingsBRL}
-                      savingsEUR={savingsEUR}
-                      savingsCurrency={savingsCurrency}
-                      onSavingsBRLChange={handleSavingsBRLChange}
-                      onSavingsEURChange={handleSavingsEURChange}
-                    />
-                  </div>
-                  <div className="bg-white rounded-3xl shadow-sm">
-                    <ResultPanel
-                      result={result}
-                      input={input}
-                      topVisaScore={topVisaScore}
-                      onRequestReport={handleRequestReport}
-                    />
-                  </div>
-                  <div className="bg-white rounded-3xl shadow-sm p-5">
-                    <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
-                  </div>
-                </>
-              )}
-            </div>
+                </div>
+
+                {/* Mobile — steps 1 e 2 */}
+                <div className="md:hidden flex flex-col gap-3">
+                  {step === 1 ? (
+                    <>
+                      <div className="bg-white rounded-3xl shadow-sm">
+                        <ScreeningPanel
+                          answers={screening}
+                          onChange={setScreening}
+                          onNext={handleProceedToStep2}
+                        />
+                      </div>
+                      <div className="bg-white rounded-3xl shadow-sm p-5">
+                        <VisaCompatibilityCards scores={top3} step={1} />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="bg-white rounded-3xl shadow-sm">
+                        <InputPanel
+                          input={input}
+                          onChange={handleChange}
+                          exchangeRate={exchangeRate}
+                          incomeBRL={incomeBRL}
+                          onIncomeBRLChange={handleIncomeBRLChange}
+                          savingsBRL={savingsBRL}
+                          savingsEUR={savingsEUR}
+                          savingsCurrency={savingsCurrency}
+                          onSavingsBRLChange={handleSavingsBRLChange}
+                          onSavingsEURChange={handleSavingsEURChange}
+                        />
+                      </div>
+                      <div className="bg-white rounded-3xl shadow-sm">
+                        <ResultPanel
+                          result={result}
+                          input={input}
+                          topVisaScore={topVisaScore}
+                          onRequestReport={handleRequestReport}
+                        />
+                      </div>
+                      <div className="bg-white rounded-3xl shadow-sm p-5">
+                        <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
       </main>
@@ -330,9 +346,6 @@ export default function Home() {
         </div>
       </footer>
 
-      <AnimatePresence>
-        {showLoading && <LoadingOverlay onClose={handleLoadingClose} />}
-      </AnimatePresence>
     </div>
   )
 }

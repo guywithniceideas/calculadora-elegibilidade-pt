@@ -36,7 +36,7 @@ export interface CalculatorResult {
   alerts: Alert[]
 }
 
-export type Step = 1 | 2
+export type Step = 1 | 2 | 3
 
 export type VisaTypeId = 'D1' | 'D2' | 'D4' | 'D7' | 'D8'
 
