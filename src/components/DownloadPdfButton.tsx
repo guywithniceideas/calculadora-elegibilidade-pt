@@ -1,29 +1,34 @@
 'use client'
-import dynamic from 'next/dynamic'
-import { PDFDownloadLink } from '@react-pdf/renderer'
-import PdfDocument from './PdfDocument'
+import { useState } from 'react'
+import { downloadCalculatorPdf } from '@/lib/generatePdf'
 import type { CalculatorInput, CalculatorResult } from '@/lib/types'
 
 interface Props {
   input: CalculatorInput
   result: CalculatorResult
+  label?: string
 }
 
-function Button({ input, result }: Props) {
-  const now = new Date().toLocaleDateString('pt-BR', {
-    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
-  })
-  const filename = `elegibilidade-${input.visaType.toLowerCase()}-${new Date().toISOString().slice(0, 10)}.pdf`
+export default function DownloadPdfButton({ input, result, label = 'Baixar Relatório de Elegibilidade (PDF)' }: Props) {
+  const [loading, setLoading] = useState(false)
+
+  async function handleClick() {
+    setLoading(true)
+    try {
+      await downloadCalculatorPdf(input, result)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
-    <PDFDownloadLink
-      document={<PdfDocument input={input} result={result} generatedAt={now} />}
-      fileName={filename}
-      className="block w-full bg-[#1A1A1A] hover:bg-[#333] text-white py-3 rounded-2xl text-sm font-bold transition-colors text-center"
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={loading}
+      className="block w-full bg-[#1A1A1A] hover:bg-[#333] disabled:opacity-60 text-white py-3 rounded-2xl text-sm font-bold transition-colors text-center"
     >
-      {({ loading }) => loading ? 'Gerando PDF...' : '📄 Baixar Relatório de Elegibilidade (PDF)'}
-    </PDFDownloadLink>
+      {loading ? 'Gerando PDF...' : label}
+    </button>
   )
 }
-
-export default dynamic(() => Promise.resolve(Button), { ssr: false })

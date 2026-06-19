@@ -125,7 +125,6 @@ export default function ScreeningPanel({ answers, onChange, onNext }: Props) {
   const [maxVisited, setMaxVisited] = useState(0)
   const [direction, setDirection] = useState(1)
 
-  const allAnswered = answers.objetivo !== null && answers.situacao !== null && answers.familia !== null
   const current = QUESTIONS[activeIndex]
 
   function goTo(index: number) {
@@ -138,23 +137,21 @@ export default function ScreeningPanel({ answers, onChange, onNext }: Props) {
     const newValue = answers[key] === value ? null : value
     onChange({ ...answers, [key]: newValue } as ScreeningAnswers)
 
-    if (newValue !== null && activeIndex < QUESTIONS.length - 1) {
+    if (newValue === null) return
+
+    if (activeIndex < QUESTIONS.length - 1) {
       const next = activeIndex + 1
       window.setTimeout(() => {
         setDirection(1)
         setActiveIndex(next)
         setMaxVisited(m => Math.max(m, next))
       }, 380)
+    } else {
+      window.setTimeout(() => {
+        onNext()
+      }, 450)
     }
   }
-
-  const recapItems = QUESTIONS
-    .map(q => {
-      const val = answers[q.key]
-      const opt = q.options.find(o => o.value === val)
-      return opt?.short
-    })
-    .filter((v): v is string => !!v)
 
   return (
     <div className="h-full overflow-y-auto p-6 flex flex-col">
@@ -229,39 +226,6 @@ export default function ScreeningPanel({ answers, onChange, onNext }: Props) {
               ))}
             </div>
           </motion.div>
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {allAnswered && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.35, ease: easeOut }}
-              className="overflow-hidden"
-            >
-              <div className="mt-5 pt-5 border-t border-[#EDEDED]">
-                <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#AAA] mb-2.5">Seu perfil</p>
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {recapItems.map(item => (
-                    <span key={item} className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F2F2F2] text-[#444]">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-                <motion.button
-                  type="button"
-                  onClick={onNext}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  className="w-full py-3.5 rounded-2xl text-sm font-bold bg-[#1A1A1A] text-white hover:bg-[#333] transition-colors"
-                >
-                  Ver Resultado →
-                </motion.button>
-              </div>
-            </motion.div>
-          )}
         </AnimatePresence>
       </div>
     </div>

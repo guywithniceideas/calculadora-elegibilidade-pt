@@ -51,6 +51,9 @@ export default function ConsultancyPage({ input, result, onBack }: Props) {
           <p className="text-[9px] font-black tracking-[1.8px] uppercase text-[#666] mb-2">
             Análise Concluída
           </p>
+          <p className="text-xs font-semibold text-[#16a34a] mb-2">
+            ✓ Seu relatório em PDF já está sendo baixado
+          </p>
           <h2 className="text-xl font-extrabold text-[#1A1A1A] tracking-tight leading-snug">
             Quer garantir o seu processo com<br className="hidden sm:block" /> apoio jurídico especializado?
           </h2>
@@ -92,7 +95,7 @@ export default function ConsultancyPage({ input, result, onBack }: Props) {
               Falar com um Especialista no WhatsApp
             </a>
 
-            <DownloadPdfButton input={input} result={result} />
+            <DownloadPdfButton input={input} result={result} label="Baixar novamente em PDF" />
           </div>
 
           <p className="text-center text-[10px] text-[#AAA] leading-relaxed px-2">

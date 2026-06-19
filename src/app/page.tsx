@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { calculate } from '@/lib/calculator'
+import { downloadCalculatorPdf } from '@/lib/generatePdf'
 import { fetchEurToBrlRate, brlToEur } from '@/lib/exchangeRate'
 import { scoreVisas, applyFinancialScore, getTop3Visas, familyFromFamilia } from '@/lib/compatibility'
 import type { CalculatorInput, ScreeningAnswers, Step, VisaType } from '@/lib/types'
@@ -129,6 +130,7 @@ export default function Home() {
 
   function handleRequestReport() {
     setStepDirection(1)
+    downloadCalculatorPdf(input, result).catch(() => {})
     fetch('/api/leads', { method: 'POST' }).catch(() => {})
     fetch('/api/profile', {
       method: 'POST',
