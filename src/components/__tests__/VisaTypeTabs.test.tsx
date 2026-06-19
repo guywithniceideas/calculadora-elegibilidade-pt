@@ -19,9 +19,9 @@ describe('VisaTypeTabs', () => {
     expect(onChange).toHaveBeenCalledWith('D8')
   })
 
-  it('active tab has bg-[#1A1A1A] class', () => {
+  it('active tab label has white text color', () => {
     render(<VisaTypeTabs active="D1" onChange={vi.fn()} />)
-    const d1Tab = screen.getByText(/D1/).closest('button')
-    expect(d1Tab).toHaveClass('bg-[#1A1A1A]')
+    const label = screen.getByText('D1')
+    expect(label).toHaveClass('text-white')
   })
 })

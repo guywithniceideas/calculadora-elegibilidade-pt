@@ -30,10 +30,10 @@ button:not(:disabled),
 }
 
 .btn-cta {
-  background: #998a72;
+  background: #007AFF;
   color: #FFFFFF;
 }
 
 .btn-cta:hover {
-  background: #8a7b65;
+  background: #0066D6;
 }

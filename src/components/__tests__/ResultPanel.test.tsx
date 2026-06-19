@@ -52,7 +52,7 @@ describe('ResultPanel', () => {
 
   it('PDF button shows correct copy', () => {
     render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={vi.fn()} />)
-    expect(screen.getByText('Receber Relatório Preliminar em PDF (Para mandar para Assessoria Jurídica)')).toBeInTheDocument()
+    expect(screen.getByText('Baixar Resultado em PDF')).toBeInTheDocument()
   })
 
   it('disclaimer is visible', () => {
@@ -63,7 +63,7 @@ describe('ResultPanel', () => {
   it('clicking button calls onRequestReport', () => {
     const onRequestReport = vi.fn()
     render(<ResultPanel result={eligibleResult} input={defaultInput} topVisaScore={99} onRequestReport={onRequestReport} />)
-    screen.getByText('Receber Relatório Preliminar em PDF (Para mandar para Assessoria Jurídica)').click()
+    screen.getByText('Baixar Resultado em PDF').click()
     expect(onRequestReport).toHaveBeenCalled()
   })
 

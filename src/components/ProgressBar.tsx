@@ -1,16 +1,20 @@
+'use client'
+import { motion } from 'framer-motion'
 import type { CriterionStatus } from '@/lib/types'
 
+const easeOut = [0.25, 0.1, 0.25, 1] as const
+
 const fillColor: Record<CriterionStatus, string> = {
-  pass:    'bg-[#998a72]',
-  warning: 'bg-[#998a72]',
-  fail:    'bg-[#998a72]',
-  waived:  'bg-[#DCDCDC]',
+  pass:    '#1A1A1A',
+  warning: '#998a72',
+  fail:    '#C9785A',
+  waived:  '#DCDCDC',
 }
 
 const pctColor: Record<CriterionStatus, string> = {
   pass:    'text-[#1A1A1A]',
-  warning: 'text-[#777]',
-  fail:    'text-[#999]',
+  warning: 'text-[#998a72]',
+  fail:    'text-[#C9785A]',
   waived:  'text-[#AAA]',
 }
 
@@ -35,9 +39,12 @@ export default function ProgressBar({ label, sublabel, percent, status }: Props)
         </span>
       </div>
       <div className="bg-[#E0E0E0] h-1.5 rounded-full overflow-hidden">
-        <div
-          className={`h-full rounded-full transition-all duration-300 ${fillColor[status]}`}
-          style={{ width: `${displayPct}%` }}
+        <motion.div
+          className="h-full rounded-full"
+          style={{ background: fillColor[status] }}
+          initial={false}
+          animate={{ width: `${displayPct}%` }}
+          transition={{ duration: 0.5, ease: easeOut }}
         />
       </div>
     </div>
