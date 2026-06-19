@@ -10,7 +10,7 @@ export default function StepIndicator({ step }: Props) {
       {/* Step 1 */}
       <div className="flex items-center gap-2">
         <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-[#1A1A1A] text-white">
-          ✓
+          {step > 1 ? '✓' : '1'}
         </div>
         <span className={`text-xs font-semibold ${step === 1 ? 'text-[#1A1A1A]' : 'text-[#666]'}`}>
           Perfil do Visto
