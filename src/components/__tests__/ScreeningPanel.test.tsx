@@ -6,43 +6,50 @@ import type { ScreeningAnswers } from '@/lib/types'
 const empty: ScreeningAnswers = { objetivo: null, situacao: null, familia: null }
 
 describe('ScreeningPanel', () => {
-  it('renders all 3 section labels', () => {
+  it('renders the first question initially', () => {
     render(<ScreeningPanel answers={empty} onChange={vi.fn()} onNext={vi.fn()} />)
     expect(screen.getByText(/Qual seu objetivo/i)).toBeInTheDocument()
-    expect(screen.getByText(/situação profissional/i)).toBeInTheDocument()
-    expect(screen.getByText(/Quem vem com você/i)).toBeInTheDocument()
+    expect(screen.getByText('Pergunta 1 de 3')).toBeInTheDocument()
   })
 
-  it('"Próxima Etapa" button is disabled when no answers', () => {
+  it('"Ver Resultado" button is not shown when no answers', () => {
     render(<ScreeningPanel answers={empty} onChange={vi.fn()} onNext={vi.fn()} />)
-    expect(screen.getByText('Próxima Etapa →')).toBeDisabled()
+    expect(screen.queryByText('Ver Resultado →')).not.toBeInTheDocument()
   })
 
-  it('"Próxima Etapa" button is enabled when all 3 answered', () => {
+  it('"Ver Resultado" button appears when all 3 answered', () => {
     const full: ScreeningAnswers = { objetivo: 'remoto', situacao: 'freelancer', familia: 'sozinho' }
     render(<ScreeningPanel answers={full} onChange={vi.fn()} onNext={vi.fn()} />)
-    expect(screen.getByText('Próxima Etapa →')).not.toBeDisabled()
+    expect(screen.getByText('Ver Resultado →')).toBeInTheDocument()
   })
 
-  it('clicking objetivo chip calls onChange with objetivo set', () => {
+  it('clicking objetivo option calls onChange with objetivo set', () => {
     const onChange = vi.fn()
     render(<ScreeningPanel answers={empty} onChange={onChange} onNext={vi.fn()} />)
     fireEvent.click(screen.getByText('Trabalhar remotamente para empresa fora de Portugal'))
     expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ objetivo: 'remoto' }))
   })
 
-  it('clicking "Próxima Etapa" when enabled calls onNext', () => {
+  it('clicking "Ver Resultado" when enabled calls onNext', () => {
     const onNext = vi.fn()
     const full: ScreeningAnswers = { objetivo: 'remoto', situacao: 'freelancer', familia: 'sozinho' }
     render(<ScreeningPanel answers={full} onChange={vi.fn()} onNext={onNext} />)
-    fireEvent.click(screen.getByText('Próxima Etapa →'))
+    fireEvent.click(screen.getByText('Ver Resultado →'))
     expect(onNext).toHaveBeenCalled()
   })
 
-  it('selected chip has bg-[#1A1A1A] class', () => {
+  it('selected option has bg-[#1A1A1A] class', () => {
     const answers: ScreeningAnswers = { objetivo: 'remoto', situacao: null, familia: null }
     render(<ScreeningPanel answers={answers} onChange={vi.fn()} onNext={vi.fn()} />)
-    const selectedChip = screen.getByText('Trabalhar remotamente para empresa fora de Portugal')
-    expect(selectedChip.closest('button')).toHaveClass('bg-[#1A1A1A]')
+    const selectedOption = screen.getByText('Trabalhar remotamente para empresa fora de Portugal')
+    expect(selectedOption.closest('button')).toHaveClass('bg-[#1A1A1A]')
+  })
+
+  it('shows recap chips with short labels once answered', () => {
+    const full: ScreeningAnswers = { objetivo: 'remoto', situacao: 'freelancer', familia: 'sozinho' }
+    render(<ScreeningPanel answers={full} onChange={vi.fn()} onNext={vi.fn()} />)
+    expect(screen.getByText('Remoto')).toBeInTheDocument()
+    expect(screen.getByText('Freelancer')).toBeInTheDocument()
+    expect(screen.getByText('Sozinho')).toBeInTheDocument()
   })
 })
