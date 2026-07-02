@@ -39,7 +39,7 @@ function NumericInput({ id, label, value, onChange }: { id: string; label: strin
         value={value || ''}
         onChange={e => onChange(parseFloat(e.target.value) || 0)}
         placeholder="0,00"
-        className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-[#1A1A1A] text-sm font-semibold placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
+        className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-[#1A1A1A] text-base font-semibold placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
       />
     </div>
   )

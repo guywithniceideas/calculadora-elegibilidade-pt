@@ -127,7 +127,7 @@ export default function AuthGate({ onAuthenticated }: Props) {
                 onChange={e => setName(e.target.value)}
                 placeholder="Nome Sobrenome"
                 autoComplete="name"
-                className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
+                className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-base font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
               />
             </div>
           )}
@@ -142,7 +142,7 @@ export default function AuthGate({ onAuthenticated }: Props) {
               onChange={e => setUsername(e.target.value)}
               placeholder="seu@email.com"
               autoComplete="email"
-              className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
+              className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-base font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
             />
           </div>
 
@@ -156,7 +156,7 @@ export default function AuthGate({ onAuthenticated }: Props) {
               onChange={e => setPassword(e.target.value)}
               placeholder="••••••••"
               autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-              className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-sm font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
+              className="w-full bg-[#EFEFEF] rounded-xl px-3 py-2.5 text-base font-semibold text-[#1A1A1A] placeholder:text-[#BBB] outline-none focus:ring-2 focus:ring-[#1A1A1A]/20 transition-all"
             />
           </div>
 
