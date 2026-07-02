@@ -58,7 +58,7 @@ export default function PdfDocument({ input, result, generatedAt }: Props) {
         {/* Cabeçalho */}
         <View style={s.header}>
           <Text style={s.title}>Relatório de Elegibilidade Migratória</Text>
-          <Text style={s.subtitle}>Calculadora de Elegibilidade PT · Gerado em {generatedAt} · Baseado na RMMG 2026 (€920)</Text>
+          <Text style={s.subtitle}>Simulador de Vistos · Gerado em {generatedAt} · Baseado na RMMG 2026 (€920)</Text>
         </View>
 
         {/* Resultado geral */}

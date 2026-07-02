@@ -80,7 +80,7 @@ export default function AuthGate({ onAuthenticated }: Props) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/pt-flag.png" alt="Portugal" className="h-6 w-auto" />
           <span className="text-sm font-extrabold text-[#1A1A1A] tracking-tight leading-tight">
-            Calculadora de Elegibilidade PT
+            Simulador de Vistos
           </span>
         </div>
 

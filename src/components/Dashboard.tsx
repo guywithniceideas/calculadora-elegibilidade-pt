@@ -21,7 +21,6 @@ const STATUS_META = {
 } as const
 
 const easeOut = [0.25, 0.1, 0.25, 1] as const
-const cardShadow = '0 4px 24px rgba(0,0,0,0.06)'
 const cardShadowHover = '0 12px 32px rgba(0,0,0,0.1)'
 
 const listVariants = {
@@ -54,7 +53,7 @@ function AmbientBackground() {
   const loop = (extra: TargetAndTransition) => (shouldReduceMotion ? undefined : extra)
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" style={{ background: '#F2F2F2' }}>
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
       <motion.div
         className="absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full blur-3xl"
         style={{ background: 'rgba(0,0,0,0.04)' }}
@@ -133,8 +132,7 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
       variants={itemVariants}
       whileHover={{ y: -3, boxShadow: cardShadowHover }}
       transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-      className={`rounded-3xl p-5 bg-white border border-[#F0F0F0] ${className}`}
-      style={{ boxShadow: cardShadow }}
+      className={`rounded-3xl p-5 glass-card ${className}`}
     >
       {children}
     </motion.div>
@@ -213,7 +211,7 @@ export default function Dashboard({ userName, profile, onStart }: Props) {
         <motion.div variants={itemVariants} className="flex items-center justify-between gap-3 mb-1">
           <div>
             <p className="text-[10px] font-black tracking-[1.8px] uppercase text-[#998a72] mb-1">Bem-vindo de volta</p>
-            <h1 className="text-2xl font-extrabold text-[#1A1A1A] tracking-tight">Olá, {firstName}</h1>
+            <h1 className="text-2xl font-extrabold text-white tracking-tight">Olá, {firstName}</h1>
           </div>
           <div className="flex items-center gap-2.5">
             {hasProfile && (
@@ -318,8 +316,7 @@ export default function Dashboard({ userName, profile, onStart }: Props) {
                 whileHover={{ y: -3, boxShadow: cardShadowHover }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                className="rounded-3xl p-5 bg-white border border-[#F0F0F0] flex items-center gap-3.5"
-                style={{ boxShadow: cardShadow }}
+                className="rounded-3xl p-5 glass-card flex items-center gap-3.5"
               >
                 <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#25D366' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
@@ -336,8 +333,7 @@ export default function Dashboard({ userName, profile, onStart }: Props) {
                 variants={itemVariants}
                 whileHover={{ y: -3, boxShadow: cardShadowHover }}
                 transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                className="rounded-3xl p-5 bg-white border border-[#F0F0F0] flex flex-col gap-3"
-                style={{ boxShadow: cardShadow }}
+                className="rounded-3xl p-5 glass-card flex flex-col gap-3"
               >
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 rounded-full bg-[#1A1A1A] flex items-center justify-center flex-shrink-0">
@@ -358,8 +354,7 @@ export default function Dashboard({ userName, profile, onStart }: Props) {
         ) : (
           <motion.div
             variants={itemVariants}
-            className="rounded-3xl p-10 bg-white border border-[#F0F0F0] flex flex-col items-center text-center gap-4"
-            style={{ boxShadow: cardShadow }}
+            className="rounded-3xl p-10 glass-card flex flex-col items-center text-center gap-4"
           >
             <motion.div
               animate={{ y: [0, -5, 0] }}

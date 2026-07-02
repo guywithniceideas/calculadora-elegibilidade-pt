@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { getImageProps } from 'next/image'
 import { calculate } from '@/lib/calculator'
 import { downloadCalculatorPdf } from '@/lib/generatePdf'
 import { fetchEurToBrlRate, brlToEur } from '@/lib/exchangeRate'
@@ -28,6 +29,14 @@ const initialInput: CalculatorInput = {
 }
 
 const initialScreening: ScreeningAnswers = { objetivo: null, situacao: null, familia: null }
+
+const bgImageCommon = { alt: '', sizes: '100vw', quality: 75, loading: 'eager' as const }
+const { props: { srcSet: desktopBgSrcSet } } = getImageProps({
+  ...bgImageCommon, src: '/torre-de-belem.jpg', width: 1672, height: 941,
+})
+const { props: mobileBgImgProps } = getImageProps({
+  ...bgImageCommon, src: '/torre-de-belem-mobile.jpg', width: 941, height: 1672,
+})
 
 const stepVariants = {
   enter: (dir: number) => ({ opacity: 0, x: dir * 24 }),
@@ -194,7 +203,17 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: '#F2F2F2' }}>
+    <div className="relative isolate min-h-screen flex flex-col" style={{ background: '#F2F2F2' }}>
+      <picture>
+        <source media="(min-width: 768px)" srcSet={desktopBgSrcSet} />
+        <img
+          {...mobileBgImgProps}
+          alt=""
+          className="fixed inset-0 -z-20 w-full h-full object-cover"
+        />
+      </picture>
+      <div aria-hidden className="fixed inset-0 -z-10 bg-black/55" />
+
       <header className="bg-white shadow-sm px-4 md:px-6 py-3 flex items-center justify-between">
         <button
           onClick={handleGoHome}
@@ -204,7 +223,7 @@ export default function Home() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/pt-flag.png" alt="Portugal" className="h-6 w-auto" />
           <span className="text-sm md:text-base font-extrabold text-[#1A1A1A] tracking-tight">
-            Calculadora de Elegibilidade PT
+            Simulador de Vistos
           </span>
           <span className="hidden sm:inline bg-[#EFEFEF] text-[#555] text-[9px] font-bold px-2 py-0.5 rounded-full">2026</span>
         </button>
@@ -236,7 +255,11 @@ export default function Home() {
 
       {view === 'calculator' && (
       <>
-      <StepIndicator step={step} />
+      <div className="flex justify-center pt-3 px-4">
+        <div className="glass-card rounded-2xl">
+          <StepIndicator step={step} />
+        </div>
+      </div>
 
       <AnimatePresence>
         {step === 2 && (
@@ -263,15 +286,15 @@ export default function Home() {
             exit="exit"
             transition={{ duration: 0.26, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {step === 2 && (
+            {(step === 1 || step === 2) && (
               <button
-                onClick={handleBackToStep1}
+                onClick={step === 1 ? handleGoHome : handleBackToStep1}
                 className="inline-flex items-center gap-2 mb-3 px-4 py-2 rounded-xl bg-white border border-[#E0E0E0] shadow-sm text-xs font-semibold text-[#444] hover:bg-[#EFEFEF] hover:border-[#1A1A1A] hover:text-[#1A1A1A] transition-colors"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6" />
                 </svg>
-                Voltar ao Rastreio do Visto
+                {step === 1 ? 'Voltar ao Início' : 'Voltar ao Rastreio do Visto'}
               </button>
             )}
 
@@ -289,7 +312,7 @@ export default function Home() {
                 {/* Desktop — steps 1 e 2 */}
                 <div className="hidden md:flex gap-3 h-full">
                   <div
-                    className="bg-white rounded-3xl shadow-sm overflow-hidden"
+                    className="glass-card rounded-3xl overflow-hidden"
                     style={step === 1 ? { flex: 1 } : { width: '360px', flexShrink: 0 }}
                   >
                     {step === 1 ? (
@@ -315,7 +338,7 @@ export default function Home() {
                   </div>
 
                   <div
-                    className="bg-white rounded-3xl shadow-sm overflow-hidden"
+                    className="glass-card rounded-3xl overflow-hidden"
                     style={step === 1 ? { width: '260px', flexShrink: 0 } : { flex: 1 }}
                   >
                     {step === 1 ? (
@@ -340,20 +363,20 @@ export default function Home() {
                 <div className="md:hidden flex flex-col gap-3">
                   {step === 1 ? (
                     <>
-                      <div className="bg-white rounded-3xl shadow-sm">
+                      <div className="glass-card rounded-3xl overflow-hidden">
                         <ScreeningPanel
                           answers={screening}
                           onChange={setScreening}
                           onNext={handleProceedToStep2}
                         />
                       </div>
-                      <div className="bg-white rounded-3xl shadow-sm p-5">
+                      <div className="glass-card rounded-3xl p-5">
                         <VisaCompatibilityCards scores={top3} step={1} />
                       </div>
                     </>
                   ) : (
                     <>
-                      <div className="bg-white rounded-3xl shadow-sm">
+                      <div className="glass-card rounded-3xl overflow-hidden">
                         <InputPanel
                           input={input}
                           onChange={handleChange}
@@ -367,7 +390,7 @@ export default function Home() {
                           onSavingsEURChange={handleSavingsEURChange}
                         />
                       </div>
-                      <div className="bg-white rounded-3xl shadow-sm">
+                      <div className="glass-card rounded-3xl overflow-hidden">
                         <ResultPanel
                           result={result}
                           input={input}
@@ -375,7 +398,7 @@ export default function Home() {
                           onRequestReport={handleRequestReport}
                         />
                       </div>
-                      <div className="bg-white rounded-3xl shadow-sm p-5">
+                      <div className="glass-card rounded-3xl p-5">
                         <VisaCompatibilityCards scores={top3} step={2} activeVisaId={input.visaType} />
                       </div>
                     </>
@@ -393,9 +416,9 @@ export default function Home() {
         <span>Baseado no Decreto-Lei n.º 139/2025 e Portaria n.º 1563/2007 · Documento informativo, não substitui consultoria jurídica</span>
         <div className="flex items-center gap-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/vm-logo.png" alt="Vilanova Maranhão Advogados" className="h-5 opacity-40" />
+          <img src="/vm-logo.png" alt="Vilanova Maranhão Advogados" className="h-5 opacity-60 brightness-0 invert" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-rm.png" alt="Logo" className="h-3 opacity-40 brightness-0" />
+          <img src="/logo-rm.png" alt="Logo" className="h-3 opacity-60 brightness-0 invert" />
         </div>
       </footer>
 

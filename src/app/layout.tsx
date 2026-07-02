@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Elegibilidade PT',
-  description: 'Calcule se sua renda atende os requisitos financeiros para os Vistos D7, D8 e D2 de Portugal.',
+  title: 'Simulador de Vistos',
+  description: 'Simule sua elegibilidade para os Vistos D7, D8 e D2 de Portugal.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

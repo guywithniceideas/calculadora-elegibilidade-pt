@@ -34,7 +34,7 @@ export default function ConsultancyPage({ input, result, onBack }: Props) {
         </button>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-sm w-full max-w-2xl mx-auto overflow-hidden">
+      <div className="glass-card rounded-3xl w-full max-w-2xl mx-auto overflow-hidden">
         {/* Header */}
         <div className="p-8 pb-6 text-center border-b border-[#F0F0F0]">
           <motion.div

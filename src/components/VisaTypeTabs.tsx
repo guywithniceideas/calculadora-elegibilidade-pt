@@ -17,7 +17,7 @@ interface Props {
 
 export default function VisaTypeTabs({ active, onChange }: Props) {
   return (
-    <div className="flex gap-1 p-1.5 bg-white rounded-2xl shadow-sm overflow-x-auto">
+    <div className="flex gap-1 p-1.5 glass-card rounded-2xl overflow-x-auto">
       {tabs.map(tab => {
         const isActive = active === tab.id
         return (
